@@ -12,24 +12,29 @@ public class Pawn extends Piece {
   }
 
   @Override
-  boolean validMove(Board b, Coord from, Coord to) {
-    int length = Math.abs(from.getRow() - to.getRow())
-        + Math.abs(from.getCol() - to.getCol());
-    // If length > 2 the move is obviously illegal
-    if (length > 2) {
+  boolean validThreat(Board b, Coord from, Coord to) {
+    int lengthCol = Math.abs(from.getCol() - to.getCol());
+    int lengthRow = Math.abs(from.getRow() - to.getRow());
+    // If lengthCol > 0 the move is illegal
+    if (lengthCol > 0) {
+      return false;
+    }
+    // If lengthRow > 2 the move is illegal
+    if (lengthRow > 0) {
       return false;
     }
     // If not a move then illegal
-    if (length == 0) {
-      return false;
-    }
+    //
     // If length == 2 check for the special case
-    if (length == 2 && Math.abs(from.getRow() - to.getRow()) < 2) {
-      return false;
-    }
-    // If there is already a piece at to and it has the same color as this pawn
-    if (b.getColor(to) == this.getColor()) {
-      return false;
+    if (lengthCol == 2) {
+      if (!(from.getRow() == 1 || from.getRow() == 6)) {
+        return false;
+      }
+      // If there is something on the vertical path from from to to return false
+      Coord step = new Coord(from.getCol(), from.getRow() + 1);
+      if (b.getPiece(step) != null) {
+        return false;
+      }
     }
     return true;
   }

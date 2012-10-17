@@ -9,7 +9,7 @@ public class King extends Piece {
   }
 
   @Override
-  boolean validMove(Board b, Coord from, Coord to) {
+  boolean validThreat(Board b, Coord from, Coord to) {
     int length = Math.abs(from.getRow() - to.getRow())
         + Math.abs(from.getCol() - to.getCol());
     // If not a move then illegal

@@ -10,28 +10,40 @@ public class Bishop extends Piece {
   }
 
   @Override
-  boolean validMove(Board b, Coord from, Coord to) {
-    int length = Math.abs(from.getRow() - to.getRow())
-        + Math.abs(from.getCol() - to.getCol());
-    // If not a move then illegal
-    if (length == 0) {
+  boolean validThreat(Board b, Coord from, Coord to) {
+
+    int lengthCol = Math.abs(from.getCol() - to.getCol());
+    int lengthRow = Math.abs(from.getRow() - to.getRow());
+    // If the move is not diagonal then it's illegal
+    if (lengthCol != lengthRow) {
       return false;
     }
-    // If not diagonal then illegal
-    if (length != Math.abs(from.getCol() - from.getCol())) {
-      return false;
+
+    boolean left = from.getCol() < to.getCol();
+    boolean down = from.getRow() < to.getRow();
+    int col;
+    int row;
+    if (left) {
+      col = -1;
+    } else {
+      col = 1;
     }
-    // If there is already a piece at to and it has the same color as this pawn
-    if (b.getColor(to) == this.getColor()) {
-      return false;
+    if (down) {
+      row = -1;
+    } else {
+      row = 1;
     }
-    // If there is a piece on the line between from and to return false
-    for (int i = 1; i < length; i++) {
-      Coord nextPos = new Coord(from.getCol() + i, from.getRow() + i);
-      if (!b.isEmpty(nextPos)) {
+
+    // If there is something on the diagonal path from from to to return false
+    for (int i = 1; i < lengthCol - 1; i++) {
+      Coord step = new Coord(from.getCol() + col, from.getRow() + row);
+      if (b.getPiece(step) != null) {
         return false;
       }
+      col += Integer.signum(col);
+      row += Integer.signum(row);
     }
+
     return true;
   }
 
