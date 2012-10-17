@@ -23,8 +23,16 @@ public class Pawn extends Piece {
     if (lengthRow > 0) {
       return false;
     }
+    
     // If not a move then illegal
-    //
+    if (!freeDest(b, from, to)) {
+      return false;
+    }
+    
+    if (from.equals(to)) {
+      return false;
+    }
+    
     // If length == 2 check for the special case
     if (lengthCol == 2) {
       if (!(from.getRow() == 1 || from.getRow() == 6)) {

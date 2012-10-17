@@ -18,6 +18,18 @@ public class Queen extends Piece {
     if (lengthCol != lengthRow && (lengthCol != 0 || lengthRow != 0)) {
       return false;
     }
+    
+    if (b.getPiece(to).getType() == pieceType.K) {
+      return false;
+    }
+ 
+    if (from.equals(to)) {
+      return false;
+    }
+    
+    if (!freeDest(b, from, to)) {
+      return false;
+    }
 
     boolean diagonal = lengthCol == lengthRow;
     boolean left = from.getCol() < to.getCol();

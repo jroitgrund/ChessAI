@@ -18,6 +18,18 @@ public class Rook extends Piece {
     if (lengthCol != 0 && lengthRow != 0) {
       return false;
     }
+    
+    if (b.getPiece(to).getType() == pieceType.K) {
+      return false;
+    }
+ 
+    if (from.equals(to)) {
+      return false;
+    }
+    
+    if (!freeDest(b, from, to)) {
+      return false;
+    }
 
     boolean vertical = from.getRow() != from.getCol();
     boolean left = from.getCol() < to.getCol();

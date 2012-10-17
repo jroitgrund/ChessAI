@@ -18,6 +18,18 @@ public class Bishop extends Piece {
     if (lengthCol != lengthRow) {
       return false;
     }
+    
+    if (b.getPiece(to).getType() == pieceType.K) {
+      return false;
+    }
+    
+    if (from.equals(to)) {
+      return false;
+    }
+    
+    if (!freeDest(b, from, to)) {
+      return false;
+    }
 
     boolean left = from.getCol() < to.getCol();
     boolean down = from.getRow() < to.getRow();
