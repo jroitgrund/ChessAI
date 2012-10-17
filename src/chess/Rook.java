@@ -2,7 +2,7 @@ package chess;
 
 import java.util.List;
 
-public class King extends Piece {
+public class Rook extends Piece {
 
   @Override
   boolean validMove(Board b, Coord from, Coord to) {

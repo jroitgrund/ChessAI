@@ -1,17 +1,25 @@
 package chess;
 
-public class Bishop extends Piece{
+import java.util.List;
 
-	@Override
-	boolean validMove(Board b, Coord from, Coord to) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+public class Bishop extends Piece {
 
-	@Override
-	pieceType getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  boolean validMove(Board b, Coord from, Coord to) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  pieceType getType() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  List<Coord> getMoves() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
 }

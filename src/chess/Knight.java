@@ -1,17 +1,19 @@
 package chess;
 
-public class Knight extends Piece{
+import java.util.List;
 
-	@Override
-	boolean validMove(Board b, Coord from, Coord to) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+public class Knight extends Piece {
 
-	@Override
-	pieceType getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  boolean validMove(Board b, Coord from, Coord to) {
+    return false;
+  }
+
+  pieceType getType() {
+    return null;
+  }
+
+  List<Coord> getMoves() {
+    return null;
+  }
 
 }
