@@ -9,8 +9,8 @@ public class Knight extends Piece {
     // TODO Auto-generated constructor stub
   }
 
-  boolean validMove(Board b, Coord from, Coord to) {
-    return false;
+  boolean validThreat(Board b, Coord from, Coord to) {
+    return true;
   }
 
   pieceType getType() {

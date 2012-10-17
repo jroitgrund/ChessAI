@@ -9,25 +9,36 @@ public class King extends Piece {
   }
 
   @Override
-  boolean validMove(Board b, Coord from, Coord to) {
-    int length = Math.abs(from.getRow() - to.getRow())
-        + Math.abs(from.getCol() - to.getCol());
-    // If not a move then illegal
-    if (length == 0) {
+  boolean validThreat(Board b, Coord from, Coord to) {
+    if (!freeDest(b, from, to)) {
       return false;
-    }
-    // If there is already a piece at to and it has the same color as this pawn
-    if (b.getColor(to) == this.getColor()) {
-      return false;
-    }
-    // If there is a piece on the line between from and to return false
-    for (int i = 1; i < length; i++) {
-      Coord nextPos = new Coord(from.getCol() + i, from.getRow() + i);
-      if (!b.isEmpty(nextPos)) {
-        return false;
-      }
     }
     return true;
+  }
+
+  boolean validMove(Board b, Coord from, Coord to) {
+    if (!validThreat(b, from, to)) {
+
+    }
+    if (b.getPiece(to).getType() == pieceType.K) {
+      return false;
+    }
+    Board bPrime = new Board(b);
+    bPrime.setPiece(to, this);
+    bPrime.clearPiece(from);
+
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        Coord fromPrime = new Coord(i, j);
+        Piece threat = bPrime.getPiece(fromPrime);
+        if (threat != null && threat.getColor() == getColor().opposite()) {
+          if (threat.validThreat(bPrime, fromPrime, to)) {
+            return false;
+          }
+        }
+      }
+    }
+    return false;
   }
 
   @Override

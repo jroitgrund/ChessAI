@@ -10,7 +10,7 @@ public class Queen extends Piece {
   }
 
   @Override
-  boolean validMove(Board b, Coord from, Coord to) {
+  boolean validThreat(Board b, Coord from, Coord to) {
     // TODO Auto-generated method stub
     return false;
   }
