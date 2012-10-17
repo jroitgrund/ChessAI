@@ -2,6 +2,11 @@ package chess;
 
 public class Queen extends Piece {
 
+	Queen(pieceColor color) {
+		super(color);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	boolean validMove(Board b, Coord from, Coord to) {
 		// TODO Auto-generated method stub
@@ -10,8 +15,7 @@ public class Queen extends Piece {
 
 	@Override
 	pieceType getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return pieceType.Q;
 	}
 
 }

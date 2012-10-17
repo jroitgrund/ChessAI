@@ -8,4 +8,7 @@ public abstract class Piece {
 	{
 	  return color;
 	}
+	Piece(pieceColor color) {
+		this.color = color;
+	}
 }

@@ -5,7 +5,7 @@ public class Coord {
   private int row;
   private int col;
   
-  Coord(int row, int col)
+  Coord(int col, int row)
   {
     this.row = row;
     this.col = col;
