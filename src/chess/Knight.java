@@ -19,6 +19,7 @@ public class Knight extends Piece {
       return false;
     }
     return false;
+
   }
 
   pieceType getType() {
