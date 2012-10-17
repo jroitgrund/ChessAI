@@ -1,22 +1,24 @@
 package chess;
 
-public class Knight extends Piece{
+import java.util.List;
 
-	Knight(pieceColor color) {
-		super(color);
-		// TODO Auto-generated constructor stub
-	}
+public class Knight extends Piece {
 
-	@Override
-	boolean validMove(Board b, Coord from, Coord to) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  Knight(pieceColor color) {
+    super(color);
+    // TODO Auto-generated constructor stub
+  }
 
-	@Override
-	pieceType getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  boolean validMove(Board b, Coord from, Coord to) {
+    return false;
+  }
+
+  pieceType getType() {
+    return null;
+  }
+
+  List<Coord> getMoves() {
+    return null;
+  }
 
 }
