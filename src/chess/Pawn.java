@@ -30,8 +30,8 @@ public class Pawn extends Piece {
   @Override
   protected boolean validThreat(Board b, Coord from, Coord to) {
     setInfo(b, from, to);
-    return (colDiff == 1 && rowDiff == 1 && b.getPiece(to) != null && b.getPiece(to).getColor() == getColor()
-        .opposite());
+    return (colDiff == 1 && rowDiff == 1 && b.getPiece(to) != null && b
+        .getPiece(to).getColor() == getColor().opposite());
   }
 
   protected boolean validDest(Board b, Coord from, Coord to) {
@@ -72,7 +72,6 @@ public class Pawn extends Piece {
       b.clearPiece(new Coord(to.getCol(), to.getRow() - 1 * invert));
     }
     super.move(b, from, to);
-    
     if (realRow + 1 == 7) {
       b.setPiece(to, new Queen(getColor()));
     }

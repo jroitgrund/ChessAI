@@ -55,7 +55,9 @@ public class Main {
       catch (IOException e) {
         System.out.println("Error while getting command.");
       }
-      System.out.println("Trying to move [" + selectedPiece.getCol() + ", " + selectedPiece.getRow() + "] to [" + selectedDestination.getCol() + ", " + selectedDestination.getRow() + "]");
+      System.out.println("Trying to move [" + selectedPiece.getCol() + ", "
+          + selectedPiece.getRow() + "] to [" + selectedDestination.getCol()
+          + ", " + selectedDestination.getRow() + "]");
       if (!b.move(selectedPiece, selectedDestination)) {
         System.out.println("Incorrect move!");
       }

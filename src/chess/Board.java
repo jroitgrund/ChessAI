@@ -143,8 +143,7 @@ public class Board {
         return true;
       }
     }
-    else if (p == null)
-    {
+    else if (p == null) {
       System.out.println("No piece");
     }
     else if (p.getColor() != getCurrentPlayer()) {
