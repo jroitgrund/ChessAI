@@ -7,7 +7,7 @@ public class Board {
 
   private Piece[][] pieces;
   private PlayerInfo[] players;
-  
+
   public Board(Board b) {
     pieces = b.pieces;
     players[0] = new PlayerInfo(b.players[0]);
@@ -76,7 +76,7 @@ public class Board {
 
     return pieceList;
   }
-  
+
   Piece getPiece(Coord c) {
     return pieces[c.getCol()][c.getRow()];
   }

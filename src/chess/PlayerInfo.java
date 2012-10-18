@@ -8,9 +8,8 @@ public class PlayerInfo {
     this.enPassant = 10;
     this.kingCoord = c;
   }
-  
-  PlayerInfo(PlayerInfo pi)
-  {
+
+  PlayerInfo(PlayerInfo pi) {
     this.enPassant = pi.getEnPassant();
     this.kingCoord = pi.getKing();
   }
