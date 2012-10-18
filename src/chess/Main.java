@@ -19,8 +19,14 @@ public class Main {
     while (!b.isFinished()) {
       Coord selectedPiece = null;
       Coord selectedDestination = null;
-      System.out.println("It is now " + b.getCurrentPlayer()
-          + "'s turn to play!");
+      String currentPlayer = "";
+      if (b.getCurrentPlayer() == pieceColor.B) {
+        currentPlayer = "black";
+      }
+      else {
+        currentPlayer = "white";
+      }
+      System.out.println("It is now " + currentPlayer + "'s turn to play!");
       try {
         System.out
             .println("Please enter the coordinates of the piece you would like to move:");
