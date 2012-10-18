@@ -12,6 +12,7 @@ public class Board {
   private PlayerInfo[] players;
 
   private pieceColor   currentPlayer;
+  private pieceColor   currentAdversary;
 
   Board(Board b) {
     pieces = new Piece[8][];
@@ -22,10 +23,12 @@ public class Board {
     players[0] = new PlayerInfo(b.players[0]);
     players[1] = new PlayerInfo(b.players[1]);
     currentPlayer = b.currentPlayer;
+    currentAdversary = b.currentAdversary;
   }
 
   Board() {
     currentPlayer = pieceColor.W;
+    currentAdversary = pieceColor.B;
     pieces = new Piece[8][8];
     players = new PlayerInfo[2];
     Coord wKing = new Coord(4, 0);
@@ -92,14 +95,23 @@ public class Board {
   }
 
   void switchPlayer() {
-    currentPlayer = currentPlayer.opposite();
+    currentPlayer = currentAdversary;
+    currentAdversary = currentAdversary.opposite();
   }
 
   pieceColor getCurrentPlayer() {
     return currentPlayer;
   }
+  
+  pieceColor getCurrentAdversary() {
+    return currentAdversary;
+  }
 
   boolean isFinished() {
+    // Return true is chessmate, or stalemate
+    if (getInfo(currentAdversary).isChecked()) {
+      getInfo(currentAdversary).unsetChess();
+    }
     return false;
   }
 
@@ -152,6 +164,9 @@ public class Board {
     }
     else if (p.getColor() != getCurrentPlayer()) {
       System.out.println("Piece belongs to enemy!");
+    }
+    if (p.validThreat(this, to, getInfo(currentAdversary).getKing())) {
+      getInfo(currentAdversary).setChess();
     }
     return false;
   }

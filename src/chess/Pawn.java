@@ -1,8 +1,6 @@
 
 package chess;
 
-import java.util.List;
-
 public class Pawn extends Piece {
 
   int invert;
@@ -54,12 +52,6 @@ public class Pawn extends Piece {
       return true;
     }
     return false;
-  }
-
-  @Override
-  List<Coord> getMoves() {
-    // TODO Auto-generated method stub
-    return null;
   }
 
   @Override

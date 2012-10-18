@@ -1,7 +1,6 @@
 
 package chess;
 
-import java.util.List;
 
 public class Bishop extends Piece {
 
@@ -9,9 +8,4 @@ public class Bishop extends Piece {
     super(color, moveShape.DIAG, pieceType.B);
   }
 
-  @Override
-  List<Coord> getMoves() {
-    // TODO Auto-generated method stub
-    return null;
-  }
 }

@@ -1,6 +1,7 @@
 
 package chess;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Piece {
@@ -28,8 +29,55 @@ public abstract class Piece {
   pieceColor getColor() {
     return color;
   }
-
-  abstract List<Coord> getMoves();
+  
+  List<Coord> getMoves_Direction(ArrayList<Coord> l, Board b, Coord from, int first_iteration, int second_iteration) {    
+    for(int i = first_iteration; i+from.getCol() < 8 && i+from.getCol() >= 0
+        && i+from.getRow() < 8 && i+from.getRow() >= 0; i+=Integer.signum(first_iteration)) {
+      for(int j = second_iteration; j+from.getCol() < 8 && j+from.getCol() >= 0
+          && j+from.getRow() < 8 && j+from.getRow() >= 0; j+=Integer.signum(second_iteration)) {
+        Coord to = new Coord(from,i,j);
+        if (this.validMove(b, from, to)) {
+          l.add(to);
+        }
+      }
+    }
+    return l;
+  }
+  
+  List<Coord> getMoves(Board b, Coord from) {
+    ArrayList<Coord> l = new ArrayList<Coord>();
+    switch (type) {
+      case R:
+        getMoves_Direction(l,b,from,-1,0);
+        getMoves_Direction(l,b,from,0,-1);
+        getMoves_Direction(l,b,from,0,1);
+        getMoves_Direction(l,b,from,-1,0);
+      break;
+      case B:
+        getMoves_Direction(l,b,from,-1,-1);
+        getMoves_Direction(l,b,from,-1,1);
+        getMoves_Direction(l,b,from,1,-1);
+        getMoves_Direction(l,b,from,1,1);
+      break;
+      case Q:
+        getMoves_Direction(l,b,from,-1,0);
+        getMoves_Direction(l,b,from,0,-1);
+        getMoves_Direction(l,b,from,0,1);
+        getMoves_Direction(l,b,from,-1,0);
+        getMoves_Direction(l,b,from,-1,-1);
+        getMoves_Direction(l,b,from,-1,1);
+        getMoves_Direction(l,b,from,1,-1);
+        getMoves_Direction(l,b,from,1,1);
+      break;     
+    }
+      
+    return l;
+      
+      
+        
+    
+  }
+      
 
   protected moveShape getMoveShape() {
     return shape;
