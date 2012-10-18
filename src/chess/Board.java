@@ -92,9 +92,13 @@ public class Board {
   void display() {
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
+        char c;
+        if (pieces[i][j] == null) {
+          c = ' ';
+        } else {
       }
     }
-    System.out.println("'");
+    }
   }
 
 }
