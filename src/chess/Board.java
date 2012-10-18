@@ -83,15 +83,32 @@ public class Board {
   }
 
   void display() {
+    StringBuilder sb = new StringBuilder(182);
+    char rows[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
+    int row_name = 0;
+    sb.append("\n");
     for (int i = 0; i < 8; i++) {
+      sb.append(rows[row_name]);
+      sb.append(" ");
+      sb.append("|");
       for (int j = 0; j < 8; j++) {
-        char c;
-        if (pieces[i][j] == null) {
-          c = ' ';
+        Piece p = pieces[i][j];
+        if (p == null) {
+          sb.append(" ");
         }
         else {
+          sb.append(p.toString());
         }
+        sb.append("|");
       }
+      sb.append("\n");
+      row_name++;
     }
+    sb.append(" ");
+    for (int i = 1; i < 9; i++) {
+      sb.append(" ");
+      sb.append(i);
+    }
+    sb.append("\n");
   }
 }

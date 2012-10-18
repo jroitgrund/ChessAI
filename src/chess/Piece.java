@@ -111,4 +111,8 @@ public abstract class Piece {
     b.setPiece(to, this);
     b.clearPiece(from);
   }
+
+  public String toString() {
+    return getType().toString();
+  }
 }
