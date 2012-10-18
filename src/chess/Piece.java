@@ -11,14 +11,19 @@ public abstract class Piece {
 
   private pieceColor color;
 
+  private pieceType  type;
+
   private moveShape  shape;
 
-  Piece(pieceColor color, moveShape shape) {
+  Piece(pieceColor color, moveShape shape, pieceType type) {
     this.color = color;
     this.shape = shape;
+    this.type = type;
   }
 
-  abstract pieceType getType();
+  pieceType getType() {
+    return type;
+  }
 
   pieceColor getColor() {
     return color;
@@ -31,6 +36,10 @@ public abstract class Piece {
   }
 
   protected boolean validThreat(Board b, Coord from, Coord to) {
+    return validDest(b, from, to);
+  }
+
+  boolean validDest(Board b, Coord from, Coord to) {
     return (freeDest(b, from, to) && freePath(b, from, to));
   }
 
@@ -53,16 +62,11 @@ public abstract class Piece {
     return true;
   }
 
-  // Checks if there is a king at to, if the move is actually a move,
-  // if there is a piece at to that has the same color as this.
   protected boolean freeDest(Board b, Coord from, Coord to) {
     if (from.equals(to)) {
       return false;
     }
-    if (b.getPiece(to) == null) {
-      return true;
-    }
-    if (b.getPiece(to).getColor() == color) {
+    if (b.getPiece(to) != null && b.getPiece(to).getColor() == color) {
       return false;
     }
     return true;
@@ -88,12 +92,8 @@ public abstract class Piece {
         }
         break;
       case L:
-        if (colDiff != 1 && rowDiff != 2 || colDiff != 2 && rowDiff != 1) {
-          return false;
-        }
-        else {
-          return true;
-        }
+        return (Math.abs(colDiff) == 1 && Math.abs(rowDiff) == 2 || Math
+            .abs(colDiff) == 2 && Math.abs(rowDiff) == 1);
       default:
     }
     int colStep = Integer.signum(colDiff);
@@ -107,7 +107,10 @@ public abstract class Piece {
     return true;
   }
 
-  abstract void move(Board b, Coord from, Coord to);
+  void move(Board b, Coord from, Coord to) {
+    b.setPiece(to, this);
+    b.clearPiece(from);
+  }
 
   public String toString() {
     return getType().toString();

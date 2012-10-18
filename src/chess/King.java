@@ -6,11 +6,11 @@ import java.util.List;
 public class King extends Piece {
 
   King(pieceColor color) {
-    super(color, moveShape.EITHER);
+    super(color, moveShape.EITHER, pieceType.K);
   }
 
   @Override
-  protected boolean validThreat(Board b, Coord from, Coord to) {
+  protected boolean validDest(Board b, Coord from, Coord to) {
     return (freeDest(b, from, to) && Coord.distance(from, to) == 1);
   }
 
@@ -21,12 +21,8 @@ public class King extends Piece {
   }
 
   @Override
-  pieceType getType() {
-    return pieceType.K;
-  }
-
-  @Override
   void move(Board b, Coord from, Coord to) {
-    // TODO Auto-generated method stub
+    super.move(b, from, to);
+    b.getInfo(getColor()).setKing(to);
   }
 }
