@@ -14,18 +14,6 @@ public class Rook extends Piece {
 
     int lengthCol = Math.abs(from.getCol() - to.getCol());
     int lengthRow = Math.abs(from.getRow() - to.getRow());
-
-    if (lengthCol != 0 && lengthRow != 0) {
-      return false;
-    }
-    
-    if (b.getPiece(to).getType() == pieceType.K) {
-      return false;
-    }
- 
-    if (from.equals(to)) {
-      return false;
-    }
     
     if (!freeDest(b, from, to)) {
       return false;
@@ -57,7 +45,7 @@ public class Rook extends Piece {
     // If there is something on the diagonal path from from to to return false
     for (int i = 1; i < lengthCol - 1; i++) {
       Coord step = new Coord(from.getCol() + col, from.getRow() + row);
-      if (b.getPiece(step) != null) {
+      if (b.isEmpty(step)) {
         return false;
       }
       col += Integer.signum(col);

@@ -6,7 +6,6 @@ public class Bishop extends Piece {
 
   Bishop(pieceColor color) {
     super(color);
-    // TODO Auto-generated constructor stub
   }
 
   @Override
@@ -14,20 +13,13 @@ public class Bishop extends Piece {
 
     int lengthCol = Math.abs(from.getCol() - to.getCol());
     int lengthRow = Math.abs(from.getRow() - to.getRow());
+
     // If the move is not diagonal then it's illegal
     if (lengthCol != lengthRow) {
       return false;
     }
     
-    if (b.getPiece(to).getType() == pieceType.K) {
-      return false;
-    }
-    
-    if (from.equals(to)) {
-      return false;
-    }
-    
-    if (!freeDest(b, from, to)) {
+		if (!freeDest(b, from, to)) {
       return false;
     }
 
@@ -49,7 +41,7 @@ public class Bishop extends Piece {
     // If there is something on the diagonal path from from to to return false
     for (int i = 1; i < lengthCol - 1; i++) {
       Coord step = new Coord(from.getCol() + col, from.getRow() + row);
-      if (b.getPiece(step) != null) {
+      if (b.isEmpty(step)) {
         return false;
       }
       col += Integer.signum(col);

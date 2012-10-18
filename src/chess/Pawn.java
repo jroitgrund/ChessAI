@@ -24,13 +24,22 @@ public class Pawn extends Piece {
       return false;
     }
     
-    // If not a move then illegal
     if (!freeDest(b, from, to)) {
       return false;
     }
     
-    if (from.equals(to)) {
+    // If there is a piece that has the same color as this at to then
+    // illegal
+    if (b.getColor(to) == getColor()) {
       return false;
+    }
+    
+    boolean down = from.getRow() < to.getRow();
+    int row;
+    if (down) {
+      row = -1;
+    } else {
+      row = 1;
     }
     
     // If length == 2 check for the special case
@@ -39,8 +48,8 @@ public class Pawn extends Piece {
         return false;
       }
       // If there is something on the vertical path from from to to return false
-      Coord step = new Coord(from.getCol(), from.getRow() + 1);
-      if (b.getPiece(step) != null) {
+      Coord step = new Coord(from.getCol(), from.getRow() + row);
+      if (b.isEmpty(step)) {
         return false;
       }
     }

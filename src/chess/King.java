@@ -15,14 +15,6 @@ public class King extends Piece {
       return false;
     }
     
-    if (b.getPiece(to).getType() == pieceType.K) {
-      return false;
-    }
-    
-    if (from.equals(to)) {
-      return false;
-    }
-    
     Board bPrime = new Board(b);
     bPrime.setPiece(to, this);
     bPrime.clearPiece(from);

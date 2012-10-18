@@ -7,6 +7,8 @@ public abstract class Piece {
 
   abstract boolean validThreat(Board b, Coord from, Coord to);
 
+  // Checks if there is a king at to, if the move is actually a move,
+  // if there is a piece at to that has the same color as this.
   protected boolean freeDest(Board b, Coord from, Coord to) {
     if (from.equals(to)) {
       return false;
@@ -19,6 +21,11 @@ public abstract class Piece {
     if (b.getPiece(to).getColor() == color) {
       return false;
     }
+    
+    // If there is a King at to then illegal
+    if (b.getPiece(to).getType() == pieceType.K) {
+      return false;
+    } 
 
     return true;
   }

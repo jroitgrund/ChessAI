@@ -13,6 +13,10 @@ public class Knight extends Piece {
 
     int lengthCol = Math.abs(from.getCol() - to.getCol());
     int lengthRow = Math.abs(from.getRow() - to.getRow());
+    
+    if (!freeDest(b, from, to)) {
+      return false;
+    }
 
     // If the move is not a l, then it is illegal
     if (lengthCol != 2 && lengthRow != 1 || lengthCol != 1 && lengthRow != 2) {
