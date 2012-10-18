@@ -18,7 +18,9 @@ public abstract class Piece {
 
   abstract pieceType getType();
 
-  abstract void move(Board b, Coord from, Coord to);
+  pieceColor getColor() {
+    return color;
+  }
 
   abstract List<Coord> getMoves();
 
@@ -26,11 +28,7 @@ public abstract class Piece {
     return shape;
   }
 
-  pieceColor getColor() {
-    return color;
-  }
-
-  boolean validThreat(Board b, Coord from, Coord to) {
+  protected boolean validThreat(Board b, Coord from, Coord to) {
     return (freeDest(b, from, to) && freePath(b, from, to));
   }
 
@@ -74,7 +72,7 @@ public abstract class Piece {
     return true;
   }
 
-  boolean freePath(Board b, Coord c1, Coord c2) {
+  protected boolean freePath(Board b, Coord c1, Coord c2) {
     int colDiff = c1.getCol() - c2.getCol();
     int rowDiff = c1.getRow() - c2.getRow();
     switch (shape) {
@@ -113,4 +111,6 @@ public abstract class Piece {
     }
     return true;
   }
+
+  abstract void move(Board b, Coord from, Coord to);
 }

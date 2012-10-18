@@ -8,13 +8,13 @@ public class Board {
   private Piece[][] pieces;
   private PlayerInfo[] players;
 
-  public Board(Board b) {
+  Board(Board b) {
     pieces = b.pieces;
     players[0] = new PlayerInfo(b.players[0]);
     players[1] = new PlayerInfo(b.players[1]);
   }
 
-  public Board() {
+  Board() {
 
     pieces = new Piece[8][8];
     players = new PlayerInfo[2];
@@ -52,16 +52,12 @@ public class Board {
 
   }
 
-  public PlayerInfo getInfo(pieceColor c) {
+  PlayerInfo getInfo(pieceColor c) {
     if (c == pieceColor.B) {
       return players[1];
     } else {
       return players[0];
     }
-  }
-
-  boolean isEmpty(Coord position) {
-    return this.pieces[position.getCol()][position.getRow()] == null;
   }
 
   List<Piece> getPieces(pieceColor c) {
@@ -77,16 +73,20 @@ public class Board {
     return pieceList;
   }
 
+  boolean isEmpty(Coord position) {
+    return this.pieces[position.getCol()][position.getRow()] == null;
+  }
+
   Piece getPiece(Coord c) {
     return pieces[c.getCol()][c.getRow()];
   }
 
-  public void clearPiece(Coord c) {
-    pieces[c.getCol()][c.getRow()] = null;
-  }
-
   void setPiece(Coord c, Piece p) {
     pieces[c.getCol()][c.getRow()] = p;
+  }
+
+  void clearPiece(Coord c) {
+    pieces[c.getCol()][c.getRow()] = null;
   }
 
   void display() {

@@ -8,12 +8,12 @@ public class Knight extends Piece {
     super(color, moveShape.NONE);
   }
 
-  pieceType getType() {
-    return pieceType.N;
-  }
-
   List<Coord> getMoves() {
     return null;
+  }
+
+  pieceType getType() {
+    return pieceType.N;
   }
 
   @Override

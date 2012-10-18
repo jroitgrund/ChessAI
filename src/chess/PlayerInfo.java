@@ -14,24 +14,24 @@ public class PlayerInfo {
     this.kingCoord = pi.getKing();
   }
 
-  public Coord getKing() {
+  Coord getKing() {
     return kingCoord;
   }
 
-  public int getEnPassant() {
+  int getEnPassant() {
     return enPassant;
   }
 
-  public void setKing(Coord c) {
+  void setKing(Coord c) {
     kingCoord = c;
   }
 
-  public void clearEnPassant() {
-    enPassant = 10;
+  void setEnPassant(int enPassant) {
+    this.enPassant = enPassant;
   }
 
-  public void setEnPassant(int enPassant) {
-    this.enPassant = enPassant;
+  void clearEnPassant() {
+    enPassant = 10;
   }
 
 }

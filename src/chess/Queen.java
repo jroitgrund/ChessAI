@@ -9,14 +9,14 @@ public class Queen extends Piece {
   }
 
   @Override
-  pieceType getType() {
-    return pieceType.Q;
-  }
-
-  @Override
   List<Coord> getMoves() {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  pieceType getType() {
+    return pieceType.Q;
   }
 
   @Override
