@@ -16,11 +16,12 @@ public class Coord {
   }
 
   Coord(String s) throws InvalidFormatException {
+    
     if (s.length() != 3) {
       throw new InvalidFormatException();
     }
-    int row = Character.getNumericValue(s.charAt(0));
-    char col = s.charAt(2);
+    int row = Character.getNumericValue(s.charAt(2));
+    char col = s.charAt(0);
     if (row < 1 || row > 8 || col < 'a' || col > 'h') {
       throw new InvalidFormatException();
     }

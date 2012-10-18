@@ -2,7 +2,7 @@
 package chess;
 
 public enum pieceColor {
-  B, W;
+  W, B;
 
   pieceColor opposite() {
     if (this == B) {
