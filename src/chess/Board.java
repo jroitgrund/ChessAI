@@ -19,10 +19,6 @@ public class Board {
     players[0] = new PlayerInfo(wKing);
     players[1] = new PlayerInfo(bKing);
 
-    //enPassant = new int[2];
-  //  clearEnPassant(pieceColor.B);
-   // clearEnPassant(pieceColor.W);
-
     for (int i = 0; i < 8; i++) {
       pieces[i][1] = new Pawn(pieceColor.W);
       pieces[i][6] = new Pawn(pieceColor.B);
