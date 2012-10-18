@@ -83,7 +83,8 @@ public abstract class Piece {
     int rowDiff = c2.getRow() - c1.getRow();
     switch (shape) {
       case DIAG:
-        if (colDiff != rowDiff) {
+        if (Math.abs(colDiff) != Math.abs(rowDiff)) {
+          System.out.println("Incorrect diagonal move: rowDiff != colDiff");
           return false;
         }
         break;
@@ -93,7 +94,8 @@ public abstract class Piece {
         }
         break;
       case EITHER:
-        if (colDiff != rowDiff && colDiff != 0 && rowDiff != 0) {
+        if (Math.abs(colDiff) != Math.abs(rowDiff) && colDiff != 0
+            && rowDiff != 0) {
           return false;
         }
         break;
@@ -107,6 +109,8 @@ public abstract class Piece {
     for (Coord c = new Coord(c1, colStep, rowStep); !c.equals(c2); c = new Coord(
         c, colStep, rowStep)) {
       if (!b.isEmpty(c)) {
+        System.out.println("Coordinate [" + c.getCol() + ", " + c.getRow()
+            + "] is blocking path");
         return false;
       }
     }

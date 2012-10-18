@@ -1,6 +1,7 @@
 
 package chess;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +14,10 @@ public class Board {
   private pieceColor   currentPlayer;
 
   Board(Board b) {
-    pieces = b.pieces;
+    pieces = new Piece[8][];
+    for (int i = 0; i < 8; i++) {
+      pieces[i] = Arrays.copyOf(b.pieces[i], 8);
+    }
     players = new PlayerInfo[2];
     players[0] = new PlayerInfo(b.players[0]);
     players[1] = new PlayerInfo(b.players[1]);
@@ -72,7 +76,7 @@ public class Board {
   }
 
   boolean isEmpty(Coord position) {
-    return this.pieces[position.getCol()][position.getRow()] == null;
+    return pieces[position.getCol()][position.getRow()] == null;
   }
 
   Piece getPiece(Coord c) {

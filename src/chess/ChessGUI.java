@@ -111,7 +111,6 @@ class ChessPanel extends JPanel implements MouseListener {
 
   @Override
   public void mouseReleased(MouseEvent e) {
-    System.out.println("clicked coord (" + e.getX() + ", " + e.getY());
     int x = e.getX() - 8;
     int y = 240 - e.getY() - 8;
     Coord c = new Coord(x / 28, y / 28);
