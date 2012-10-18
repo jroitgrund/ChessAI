@@ -16,10 +16,11 @@ public class Board {
     pieces = b.pieces;
     players[0] = new PlayerInfo(b.players[0]);
     players[1] = new PlayerInfo(b.players[1]);
-    currentPlayer = pieceColor.W;
+    currentPlayer = b.currentPlayer;
   }
 
   Board() {
+    currentPlayer = pieceColor.W;
     pieces = new Piece[8][8];
     players = new PlayerInfo[2];
     Coord wKing = new Coord(3, 0);
