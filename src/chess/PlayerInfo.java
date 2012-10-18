@@ -3,9 +3,10 @@ package chess;
 
 public class PlayerInfo {
 
-  private Coord kingCoord;
+  private Coord   kingCoord;
 
-  private int   enPassant = 10;
+  private int     enPassant = 10;
+
   private boolean isChecked;
 
   PlayerInfo(Coord c) {
@@ -27,15 +28,15 @@ public class PlayerInfo {
   int getEnPassant() {
     return enPassant;
   }
-  
+
   boolean isChecked() {
     return isChecked;
   }
-  
+
   void setChess() {
     this.isChecked = true;
   }
-  
+
   void unsetChess() {
     this.isChecked = false;
   }

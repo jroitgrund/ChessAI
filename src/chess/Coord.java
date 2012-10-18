@@ -2,7 +2,6 @@
 package chess;
 
 import com.sun.media.sound.InvalidFormatException;
-import java.lang.Character;
 
 public class Coord {
 
