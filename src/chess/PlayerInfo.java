@@ -1,8 +1,11 @@
+
 package chess;
 
 public class PlayerInfo {
+
   private Coord kingCoord;
-  private int enPassant = 10;
+
+  private int   enPassant = 10;
 
   PlayerInfo(Coord c) {
     this.enPassant = 10;
@@ -33,5 +36,4 @@ public class PlayerInfo {
   void clearEnPassant() {
     enPassant = 10;
   }
-
 }

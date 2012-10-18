@@ -1,8 +1,10 @@
+
 package chess;
 
 import java.util.List;
 
 public class King extends Piece {
+
   King(pieceColor color) {
     super(color, moveShape.EITHER);
   }
@@ -26,7 +28,5 @@ public class King extends Piece {
   @Override
   void move(Board b, Coord from, Coord to) {
     // TODO Auto-generated method stub
-
   }
-
 }

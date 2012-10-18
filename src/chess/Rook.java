@@ -1,3 +1,4 @@
+
 package chess;
 
 import java.util.List;
@@ -21,7 +22,5 @@ public class Rook extends Piece {
   @Override
   void move(Board b, Coord from, Coord to) {
     // TODO Auto-generated method stub
-
   }
-
 }
