@@ -5,8 +5,7 @@ import java.util.List;
 public class Queen extends Piece {
 
   Queen(pieceColor color) {
-    super(color);
-    shape = moveShape.EITHER;
+    super(color, moveShape.EITHER);
   }
 
   @Override
@@ -89,6 +88,12 @@ public class Queen extends Piece {
   boolean validMove(Board b, Coord from, Coord to) {
     // TODO Auto-generated method stub
     return false;
+  }
+
+  @Override
+  void move(Board b, Coord from, Coord to) {
+    // TODO Auto-generated method stub
+    
   }
 
 }

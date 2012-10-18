@@ -1,6 +1,5 @@
 package chess;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,10 +55,7 @@ public class Board {
   }
 
   public Board(Board b) {
-    pieces = new Piece[8][];
-    for (int i = 0; i < 8; i++) {
-      pieces[i] = Arrays.copyOf(b.pieces[i], 8);
-    }
+   pieces = b.pieces;
   }
     
   boolean isEmpty(Coord position) {

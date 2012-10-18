@@ -3,20 +3,56 @@ package chess;
 import java.util.List;
 
 public abstract class Piece {
-  private pieceColor color;
-  protected moveShape shape;
-
+  
   protected enum moveShape {
-    DIAG, STRAIGHT, EITHER;
+    DIAG, STRAIGHT, EITHER, NONE;
+  }
+  
+  private pieceColor color;
+  private moveShape shape;
+  
+  Piece(pieceColor color, moveShape shape) {
+    this.color = color;
+    this.shape = shape;
   }
 
+  abstract pieceType getType();
   abstract boolean validThreat(Board b, Coord from, Coord to);
-
-  abstract boolean validMove(Board b, Coord from, Coord to);
-
+  abstract void move(Board b, Coord from, Coord to);
+  abstract List<Coord> getMoves();
+  
   protected moveShape getMoveShape() {
     return shape;
   }
+  
+  pieceColor getColor() {
+    return color;
+  }
+
+  boolean validMove(Board b, Coord from, Coord to)
+  {
+    if (b.getPiece(to).getType() == pieceType.K) {
+      return false;
+    }
+    
+    Board bPrime = new Board(b);
+    move(bPrime, from, to);
+    
+    for (int i = 0; i < 8; i++)
+    {
+      for (int j = 0; j < 8; j++)
+      {
+        Coord c = new Coord(i, j);
+        if (!bPrime.isEmpty(c) && bPrime.getPiece(c).validThreat(bPrime,  c,  bPrime.getInfo(color).getKing()))
+        {
+          return false;
+        }
+      }
+    }
+    
+    return false;
+  }
+
 
   // Checks if there is a king at to, if the move is actually a move,
   // if there is a piece at to that has the same color as this.
@@ -32,30 +68,8 @@ public abstract class Piece {
     if (b.getPiece(to).getColor() == color) {
       return false;
     }
-
-    // If there is a King at to then illegal
-    if (b.getPiece(to).getType() == pieceType.K) {
-      return false;
-    }
-
+    
     return true;
-  }
-
-  abstract pieceType getType();
-
-  pieceColor getColor() {
-    return color;
-  }
-
-  Piece(pieceColor color) {
-    this.color = color;
-  }
-
-  abstract List<Coord> getMoves();
-
-  void move(Board b, Coord from, Coord to) {
-    b.clearPiece(from);
-    b.setPiece(to, this);
   }
 
   boolean freePath(Board b, Coord c1, Coord c2) {
@@ -82,7 +96,7 @@ public abstract class Piece {
     int colStep = Integer.signum(colDiff);
     int rowStep = Integer.signum(rowDiff);
 
-    for (Coord c = c1; !c.equals(c2); c = new Coord(c, colStep, rowStep)) {
+    for (Coord c = new Coord(c1, colStep, rowStep); !c.equals(c2); c = new Coord(c, colStep, rowStep)) {
       if (!b.isEmpty(c)) {
         return false;
       }
