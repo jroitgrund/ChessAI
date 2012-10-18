@@ -7,15 +7,21 @@ import java.util.List;
 public class Board {
 
   private Piece[][] pieces;
-  private int[] enPassant;
+  private PlayerInfo[] players;
 
   public Board() {
 
     pieces = new Piece[8][8];
+    players = new PlayerInfo[2];
+    
+    Coord wKing = new Coord(3,0);
+    Coord bKing = new Coord(4,7);
+    players[0] = new PlayerInfo(wKing);
+    players[1] = new PlayerInfo(bKing);
 
-    enPassant = new int[2];
-    clearEnPassant(pieceColor.B);
-    clearEnPassant(pieceColor.W);
+    //enPassant = new int[2];
+  //  clearEnPassant(pieceColor.B);
+   // clearEnPassant(pieceColor.W);
 
     for (int i = 0; i < 8; i++) {
       pieces[i][1] = new Pawn(pieceColor.W);
@@ -44,26 +50,22 @@ public class Board {
     pieces[4][7] = new King(pieceColor.B);
 
   }
+  
+  public PlayerInfo getInfo(pieceColor c) {
+    if (c == pieceColor.B) {
+      return players[1];
+    } else {
+      return players[0];
+    }
+  }
 
   public Board(Board b) {
     pieces = new Piece[8][];
     for (int i = 0; i < 8; i++) {
       pieces[i] = Arrays.copyOf(b.pieces[i], 8);
     }
-    enPassant = new int[2];
-    for (pieceColor color : pieceColor.values()) {
-      enPassant[color.ordinal()] = b.getEnPassant(color);
-    }
   }
-
-  pieceType getType(Coord position) {
-    return this.pieces[position.getCol()][position.getRow()].getType();
-  }
-
-  pieceColor getColor(Coord position) {
-    return this.pieces[position.getCol()][position.getRow()].getColor();
-  }
-
+    
   boolean isEmpty(Coord position) {
     return this.pieces[position.getCol()][position.getRow()] == null;
   }
@@ -91,18 +93,6 @@ public class Board {
 
   void setPiece(Coord c, Piece p) {
     pieces[c.getCol()][c.getRow()] = p;
-  }
-
-  void addEnPassant(pieceColor c, int col) {
-    enPassant[c.ordinal()] = col;
-  }
-
-  void clearEnPassant(pieceColor c) {
-    enPassant[c.ordinal()] = 10; // magic number
-  }
-
-  int getEnPassant(pieceColor c) {
-    return enPassant[c.ordinal()];
   }
 
 }
