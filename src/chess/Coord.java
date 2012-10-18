@@ -13,6 +13,11 @@ public class Coord {
     this.col = col & 7;
   }
 
+  Coord(Coord c, int col, int row) {
+    this.row = c.getRow() + row;
+    this.col = c.getCol() + col;
+  }
+
   int getRow() {
     return row;
   }

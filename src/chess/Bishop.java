@@ -6,6 +6,7 @@ public class Bishop extends Piece {
 
   Bishop(pieceColor color) {
     super(color);
+    shape = moveShape.DIAG;
   }
 
   @Override
@@ -44,8 +45,8 @@ public class Bishop extends Piece {
       if (b.isEmpty(step)) {
         return false;
       }
-      col += Integer.signum(col);
-      row += Integer.signum(row);
+      col += col;
+      row += row;
     }
 
     return true;
@@ -61,6 +62,12 @@ public class Bishop extends Piece {
   pieceType getType() {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  boolean validMove(Board b, Coord from, Coord to) {
+    // TODO Auto-generated method stub
+    return false;
   }
 
 }

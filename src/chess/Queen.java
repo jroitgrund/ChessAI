@@ -6,7 +6,7 @@ public class Queen extends Piece {
 
   Queen(pieceColor color) {
     super(color);
-    // TODO Auto-generated constructor stub
+    shape = moveShape.EITHER;
   }
 
   @Override
@@ -83,6 +83,12 @@ public class Queen extends Piece {
   List<Coord> getMoves() {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  boolean validMove(Board b, Coord from, Coord to) {
+    // TODO Auto-generated method stub
+    return false;
   }
 
 }
