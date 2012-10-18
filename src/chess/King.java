@@ -9,27 +9,7 @@ public class King extends Piece {
 
   @Override
   boolean validThreat(Board b, Coord from, Coord to) {
-
-    if (!freeDest(b, from, to)) {
-      return false;
-    }
-
-    Board bPrime = new Board(b);
-    bPrime.setPiece(to, this);
-    bPrime.clearPiece(from);
-
-    for (int i = 0; i < 8; i++) {
-      for (int j = 0; j < 8; j++) {
-        Coord fromPrime = new Coord(i, j);
-        Piece threat = bPrime.getPiece(fromPrime);
-        if (threat != null && threat.getColor() == getColor().opposite()) {
-          if (threat.validThreat(bPrime, fromPrime, to)) {
-            return false;
-          }
-        }
-      }
-    }
-    return true;
+    return (!freeDest(b, from, to) || Coord.distance(from,to) != 1);
   }
 
   @Override
@@ -43,11 +23,6 @@ public class King extends Piece {
     return null;
   }
 
-  @Override
-  boolean validMove(Board b, Coord from, Coord to) {
-    // TODO Auto-generated method stub
-    return false;
-  }
 
   @Override
   void move(Board b, Coord from, Coord to) {

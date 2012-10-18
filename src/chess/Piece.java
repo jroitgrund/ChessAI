@@ -17,7 +17,6 @@ public abstract class Piece {
   }
 
   abstract pieceType getType();
-  abstract boolean validThreat(Board b, Coord from, Coord to);
   abstract void move(Board b, Coord from, Coord to);
   abstract List<Coord> getMoves();
   
@@ -27,6 +26,10 @@ public abstract class Piece {
   
   pieceColor getColor() {
     return color;
+  }
+  
+  boolean validThreat(Board b, Coord from, Coord to) {
+    return (freeDest(b, from, to) && freePath(b, from, to));
   }
 
   boolean validMove(Board b, Coord from, Coord to)
