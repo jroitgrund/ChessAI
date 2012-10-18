@@ -2,6 +2,7 @@
 package chess;
 
 import com.sun.media.sound.InvalidFormatException;
+import java.lang.Character;
 
 public class Coord {
 
@@ -18,13 +19,13 @@ public class Coord {
     if (s.length() != 3) {
       throw new InvalidFormatException();
     }
-    int row = Integer.parseInt("" + s.charAt(0));
-    char col = s.charAt(2);
-    if (row < 1 || row > 8 || col < 'a' || col > 'h') {
+    int col = Character.getNumericValue(s.charAt(0));
+    char row = s.charAt(2);
+    if (col < 1 || col > 8 || row < 'a' || row > 'h') {
       throw new InvalidFormatException();
     }
-    this.row = row - 1;
-    this.col = col - 97;
+    this.col = col - 1;
+    this.row = row - 97;
   }
 
   Coord(int col, int row) {

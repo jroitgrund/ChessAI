@@ -27,6 +27,7 @@ public class Main {
         currentPlayer = "white";
       }
       System.out.println("It is now " + currentPlayer + "'s turn to play!");
+      System.out.println(b.display());
       try {
         System.out
             .println("Please enter the coordinates of the piece you would like to move:");
