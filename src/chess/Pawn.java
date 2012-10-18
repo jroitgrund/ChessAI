@@ -16,8 +16,8 @@ public class Pawn extends Piece {
   private void setInfo(Board b, Coord from, Coord to) {
     invert = getColor().ordinal() == 0 ? 1 : -1;
     colDiff = Math.abs(from.getCol() - to.getCol());
-    rowDiff = invert * (from.getRow() - to.getRow());
-    realRow = getColor().ordinal() == 0 ? 7 : 0;
+    rowDiff = invert * (to.getRow() - from.getRow());
+    realRow = getColor().ordinal() == 0 ? 0 : 7;
     realRow += from.getRow() * invert;
   }
 
@@ -30,7 +30,7 @@ public class Pawn extends Piece {
   @Override
   protected boolean validThreat(Board b, Coord from, Coord to) {
     setInfo(b, from, to);
-    return (colDiff == 1 && rowDiff == 1 && b.getPiece(to).getColor() == getColor()
+    return (colDiff == 1 && rowDiff == 1 && b.getPiece(to) != null && b.getPiece(to).getColor() == getColor()
         .opposite());
   }
 
@@ -45,7 +45,10 @@ public class Pawn extends Piece {
     if (rowDiff == 2 && realRow == 1 && colDiff == 0) {
       return freePath(b, from, to);
     }
-    if (realRow == 5
+    if (rowDiff == 1 && colDiff == 0) {
+      return true;
+    }
+    if (realRow == 4
         && b.getInfo(getColor().opposite()).getEnPassant() == to.getCol()
         && rowDiff == 1 && colDiff == 1) {
       return true;
@@ -61,7 +64,6 @@ public class Pawn extends Piece {
 
   @Override
   void move(Board b, Coord from, Coord to) {
-    super.move(b, from, to);
     setInfo(b, from, to);
     if (rowDiff == 2) {
       b.getInfo(getColor()).setEnPassant(to.getCol());
@@ -69,7 +71,9 @@ public class Pawn extends Piece {
     else if (rowDiff == 1 && colDiff == 1 && b.getPiece(to) == null) {
       b.clearPiece(new Coord(to.getCol(), to.getRow() - 1 * invert));
     }
-    else if (realRow + 1 == 7) {
+    super.move(b, from, to);
+    
+    if (realRow + 1 == 7) {
       b.setPiece(to, new Queen(getColor()));
     }
   }

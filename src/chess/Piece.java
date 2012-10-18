@@ -48,7 +48,7 @@ public abstract class Piece {
       System.out.println("valid dest returned false");
       return false;
     }
-    if (b.getPiece(to).getType() == pieceType.K) {
+    if (b.getPiece(to) != null && b.getPiece(to).getType() == pieceType.K) {
       System.out.println("king in destination square");
       return false;
     }
@@ -79,8 +79,8 @@ public abstract class Piece {
   }
 
   protected boolean freePath(Board b, Coord c1, Coord c2) {
-    int colDiff = c1.getCol() - c2.getCol();
-    int rowDiff = c1.getRow() - c2.getRow();
+    int colDiff = c2.getCol() - c1.getCol();
+    int rowDiff = c2.getRow() - c1.getRow();
     switch (shape) {
       case DIAG:
         if (colDiff != rowDiff) {
