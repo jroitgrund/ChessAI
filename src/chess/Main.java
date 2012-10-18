@@ -16,16 +16,14 @@ public class Main {
     System.out
         .println("Welcome to this game of chess! Move commands take the following format:");
     System.out.println("<row> <column>, e.g >b 2");
-    Coord selectedPiece;
-    Coord selectedDestination;
     while (!b.isFinished()) {
-      selectedPiece = null;
-      selectedDestination = null;
+      Coord selectedPiece = null;
+      Coord selectedDestination = null;
       System.out.println("It is now " + b.getCurrentPlayer()
           + "'s turn to play!");
-      System.out
-          .println("Please enter the coordinates of the piece you would like to move:");
       try {
+        System.out
+            .println("Please enter the coordinates of the piece you would like to move:");
         cmd = in.readLine();
         while (selectedPiece == null) {
           try {
@@ -35,6 +33,8 @@ public class Main {
             System.out.println(e.getMessage());
           }
         }
+        System.out
+            .println("Please enter the coordinates of the destination you would like to move to:");
         cmd = in.readLine();
         while (selectedDestination == null) {
           try {
@@ -47,6 +47,9 @@ public class Main {
       }
       catch (IOException e) {
         System.out.println("Error while getting command.");
+      }
+      if (!b.move(selectedPiece, selectedDestination)) {
+        System.out.println("Incorrect move!");
       }
     }
   }

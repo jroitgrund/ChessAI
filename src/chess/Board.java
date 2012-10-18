@@ -112,7 +112,12 @@ public class Board {
           sb.append(" ");
         }
         else {
-          sb.append(p.toString());
+          if (p.getColor() == pieceColor.B) {
+            sb.append(p.toString().toLowerCase());
+          }
+          else {
+            sb.append(p.toString());
+          }
         }
         sb.append("|");
       }
