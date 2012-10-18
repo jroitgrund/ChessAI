@@ -9,7 +9,7 @@ import com.sun.media.sound.InvalidFormatException;
 
 public class Main {
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     Board b = new Board();
     String cmd = "";
@@ -32,6 +32,7 @@ public class Main {
             selectedPiece = new Coord(cmd);
           }
           catch (InvalidFormatException e) {
+            System.out.println(e.getMessage());
           }
         }
         cmd = in.readLine();
@@ -40,6 +41,7 @@ public class Main {
             selectedDestination = new Coord(cmd);
           }
           catch (InvalidFormatException e) {
+            System.out.println(e.getMessage());
           }
         }
       }
