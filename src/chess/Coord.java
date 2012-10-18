@@ -4,6 +4,11 @@ public class Coord {
 
   private int row;
   private int col;
+  
+  static int distance(Coord from, Coord to)
+  {
+    return Math.max(Math.abs(from.getRow() - to.getRow()), Math.abs(from.getCol() - to.getCol()));
+  }
 
   Coord(int col, int row) {
     if (col > 7 || row > 7) {
