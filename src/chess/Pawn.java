@@ -1,6 +1,9 @@
 
 package chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Pawn extends Piece {
 
   int invert;
@@ -54,18 +57,12 @@ public class Pawn extends Piece {
     return false;
   }
 
-  @Override
-  void move(Board b, Coord from, Coord to) {
-    setInfo(b, from, to);
-    if (rowDiff == 2) {
-      b.getInfo(getColor()).setEnPassant(to.getCol());
-    }
-    else if (rowDiff == 1 && colDiff == 1 && b.getPiece(to) == null) {
-      b.clearPiece(new Coord(to.getCol(), to.getRow() - 1 * invert));
-    }
-    super.move(b, from, to);
-    if (realRow + 1 == 7) {
-      b.setPiece(to, new Queen(getColor()));
-    }
+  List<Coord> getMoves(Board b, Coord from) {
+    ArrayList<Coord> l = new ArrayList<Coord>();
+    int first_indexes[] = { 1, 2 };
+    int second_indexes[] = { 0 };
+    this.getMoves_Direction(l, b, from, first_indexes, second_indexes);
+    this.getMoves_Direction(l, b, from, second_indexes, first_indexes);
+    return l;
   }
 }

@@ -11,6 +11,7 @@ public class Board {
   private PlayerInfo[] players;
 
   private pieceColor   currentPlayer;
+
   private pieceColor   currentAdversary;
 
   Board(Board b) {
@@ -98,7 +99,7 @@ public class Board {
   pieceColor getCurrentPlayer() {
     return currentPlayer;
   }
-  
+
   pieceColor getCurrentAdversary() {
     return currentAdversary;
   }

@@ -1,6 +1,9 @@
 
 package chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class King extends Piece {
 
   King(pieceColor color) {
@@ -12,9 +15,10 @@ public class King extends Piece {
     return (freeDest(b, from, to) && Coord.distance(from, to) == 1);
   }
 
-  @Override
-  void move(Board b, Coord from, Coord to) {
-    super.move(b, from, to);
-    b.getInfo(getColor()).setKing(to);
+  List<Coord> getMoves(Board b, Coord from) {
+    ArrayList<Coord> l = new ArrayList<Coord>();
+    int first_indexes[] = { -1, 0, 1 };
+    this.getMoves_Direction(l, b, from, first_indexes, first_indexes);
+    return l;
   }
 }

@@ -38,6 +38,7 @@ public class ChessGUI {
   }
 }
 
+@SuppressWarnings("serial")
 class ChessPanel extends JPanel implements MouseListener {
 
   private BufferedImage[][] pieces;
