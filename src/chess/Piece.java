@@ -5,7 +5,7 @@ import java.util.List;
 public abstract class Piece {
 
   protected enum moveShape {
-    DIAG, STRAIGHT, EITHER, NONE;
+    DIAG, STRAIGHT, EITHER, NONE, L;
   }
 
   private pieceColor color;
@@ -51,7 +51,7 @@ public abstract class Piece {
       }
     }
 
-    return false;
+    return true;
   }
 
   // Checks if there is a king at to, if the move is actually a move,
@@ -91,6 +91,12 @@ public abstract class Piece {
         return false;
       }
       break;
+    case L:
+      if (colDiff != 1 && rowDiff != 2 || colDiff != 2 && rowDiff != 1) {
+        return false;
+      } else {
+        return true;
+      }
     default:
     }
 
