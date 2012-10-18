@@ -14,6 +14,7 @@ public class Board {
 
   Board(Board b) {
     pieces = b.pieces;
+    players = new PlayerInfo[2];
     players[0] = new PlayerInfo(b.players[0]);
     players[1] = new PlayerInfo(b.players[1]);
     currentPlayer = b.currentPlayer;
@@ -23,7 +24,7 @@ public class Board {
     currentPlayer = pieceColor.W;
     pieces = new Piece[8][8];
     players = new PlayerInfo[2];
-    Coord wKing = new Coord(3, 0);
+    Coord wKing = new Coord(4, 0);
     Coord bKing = new Coord(4, 7);
     players[0] = new PlayerInfo(wKing);
     players[1] = new PlayerInfo(bKing);
@@ -138,11 +139,11 @@ public class Board {
       if (p.validMove(this, from, to)) {
         p.move(this, from, to);
         switchPlayer();
+        getInfo(getCurrentPlayer()).clearEnPassant();
         return true;
       }
     }
-    else if (p == null)
-    {
+    else if (p == null) {
       System.out.println("No piece");
     }
     else if (p.getColor() != getCurrentPlayer()) {
