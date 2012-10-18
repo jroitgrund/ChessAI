@@ -8,19 +8,19 @@ public class King extends Piece {
   }
 
   @Override
-  boolean validThreat(Board b, Coord from, Coord to) {
-    return (!freeDest(b, from, to) || Coord.distance(from, to) != 1);
-  }
-
-  @Override
-  pieceType getType() {
-    return pieceType.K;
+  protected boolean validThreat(Board b, Coord from, Coord to) {
+    return (freeDest(b, from, to) && Coord.distance(from, to) == 1);
   }
 
   @Override
   List<Coord> getMoves() {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  pieceType getType() {
+    return pieceType.K;
   }
 
   @Override

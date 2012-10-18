@@ -25,10 +25,4 @@ public class Bishop extends Piece {
 
   }
 
-  @Override
-  boolean validThreat(Board b, Coord from, Coord to) {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
 }
