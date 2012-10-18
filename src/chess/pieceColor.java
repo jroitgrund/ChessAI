@@ -1,3 +1,4 @@
+
 package chess;
 
 public enum pieceColor {
@@ -7,7 +8,6 @@ public enum pieceColor {
     if (this == B) {
       return W;
     }
-
     return B;
   }
 }

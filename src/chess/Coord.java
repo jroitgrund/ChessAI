@@ -1,8 +1,10 @@
+
 package chess;
 
 public class Coord {
 
   private int row;
+
   private int col;
 
   static int distance(Coord from, Coord to) {
