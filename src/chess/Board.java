@@ -89,20 +89,15 @@ public class Board {
     currentPlayer = currentPlayer.opposite();
   }
 
-  String getCurrentPlayer() {
-    if (currentPlayer == pieceColor.B) {
-      return "black";
-    }
-    else {
-      return "white";
-    }
+  pieceColor getCurrentPlayer() {
+    return currentPlayer;
   }
 
   boolean isFinished() {
     return false;
   }
 
-  void display() {
+  String display() {
     StringBuilder sb = new StringBuilder(182);
     char rows[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
     int row_name = 0;
@@ -130,5 +125,18 @@ public class Board {
       sb.append(i);
     }
     sb.append("\n");
+    System.out.println("LENGTH OF BOARD STRING IS " + sb.length());
+    return sb.toString();
+  }
+
+  boolean move(Coord from, Coord to) {
+    Piece p = getPiece(from);
+    if (p != null && p.getColor() == getCurrentPlayer()) {
+      if (p.validMove(this, from, to)) {
+        p.move(this, from, to);
+        return true;
+      }
+    }
+    return false;
   }
 }
