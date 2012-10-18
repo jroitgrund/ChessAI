@@ -45,9 +45,11 @@ public abstract class Piece {
 
   boolean validMove(Board b, Coord from, Coord to) {
     if (!validDest(b, from, to)) {
+      System.out.println("valid dest returned false");
       return false;
     }
     if (b.getPiece(to).getType() == pieceType.K) {
+      System.out.println("king in destination square");
       return false;
     }
     Board bPrime = new Board(b);
@@ -58,6 +60,7 @@ public abstract class Piece {
         if (!bPrime.isEmpty(c)
             && bPrime.getPiece(c).validThreat(bPrime, c,
                 bPrime.getInfo(color).getKing())) {
+          System.out.println("King would be exposed");
           return false;
         }
       }

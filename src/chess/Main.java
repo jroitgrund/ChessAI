@@ -31,9 +31,9 @@ public class Main {
       try {
         System.out
             .println("Please enter the coordinates of the piece you would like to move:");
-        cmd = in.readLine();
         while (selectedPiece == null) {
           try {
+            cmd = in.readLine();
             selectedPiece = new Coord(cmd);
           }
           catch (InvalidFormatException e) {
@@ -42,9 +42,9 @@ public class Main {
         }
         System.out
             .println("Please enter the coordinates of the destination you would like to move to:");
-        cmd = in.readLine();
         while (selectedDestination == null) {
           try {
+            cmd = in.readLine();
             selectedDestination = new Coord(cmd);
           }
           catch (InvalidFormatException e) {
@@ -55,6 +55,7 @@ public class Main {
       catch (IOException e) {
         System.out.println("Error while getting command.");
       }
+      System.out.println("Trying to move [" + selectedPiece.getCol() + ", " + selectedPiece.getRow() + "] to [" + selectedDestination.getCol() + ", " + selectedDestination.getRow() + "]");
       if (!b.move(selectedPiece, selectedDestination)) {
         System.out.println("Incorrect move!");
       }

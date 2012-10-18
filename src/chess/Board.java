@@ -100,7 +100,7 @@ public class Board {
 
   String display() {
     char columns[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
-    StringBuilder sb = new StringBuilder(182);
+    StringBuilder sb = new StringBuilder(180);
     sb.append("\n");
     for (int i = 7; i >= 0; i--) {
       sb.append(i + 1);
@@ -129,7 +129,6 @@ public class Board {
       sb.append(columns[i]);
     }
     sb.append("\n");
-    System.out.println("LENGTH OF BOARD STRING IS " + sb.length());
     return sb.toString();
   }
 
@@ -141,6 +140,13 @@ public class Board {
         switchPlayer();
         return true;
       }
+    }
+    else if (p == null)
+    {
+      System.out.println("No piece");
+    }
+    else if (p.getColor() != getCurrentPlayer()) {
+      System.out.println("Piece belongs to enemy!");
     }
     return false;
   }

@@ -19,13 +19,13 @@ public class Coord {
     if (s.length() != 3) {
       throw new InvalidFormatException();
     }
-    int col = Character.getNumericValue(s.charAt(0));
-    char row = s.charAt(2);
-    if (col < 1 || col > 8 || row < 'a' || row > 'h') {
+    int row = Character.getNumericValue(s.charAt(0));
+    char col = s.charAt(2);
+    if (row < 1 || row > 8 || col < 'a' || col > 'h') {
       throw new InvalidFormatException();
     }
-    this.col = col - 1;
-    this.row = row - 97;
+    this.row = row - 1;
+    this.col = col - 97;
   }
 
   Coord(int col, int row) {
