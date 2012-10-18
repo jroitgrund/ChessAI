@@ -8,7 +8,6 @@ public class Knight extends Piece {
     super(color, moveShape.NONE);
   }
 
-
   pieceType getType() {
     return pieceType.N;
   }
@@ -20,7 +19,7 @@ public class Knight extends Piece {
   @Override
   void move(Board b, Coord from, Coord to) {
     // TODO Auto-generated method stub
-    
+
   }
 
 }

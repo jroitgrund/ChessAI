@@ -8,13 +8,19 @@ public class Board {
   private Piece[][] pieces;
   private PlayerInfo[] players;
 
+  public Board(Board b) {
+    pieces = b.pieces;
+    players[0] = new PlayerInfo(b.players[0]);
+    players[1] = new PlayerInfo(b.players[1]);
+  }
+
   public Board() {
 
     pieces = new Piece[8][8];
     players = new PlayerInfo[2];
-    
-    Coord wKing = new Coord(3,0);
-    Coord bKing = new Coord(4,7);
+
+    Coord wKing = new Coord(3, 0);
+    Coord bKing = new Coord(4, 7);
     players[0] = new PlayerInfo(wKing);
     players[1] = new PlayerInfo(bKing);
 
@@ -45,7 +51,7 @@ public class Board {
     pieces[4][7] = new King(pieceColor.B);
 
   }
-  
+
   public PlayerInfo getInfo(pieceColor c) {
     if (c == pieceColor.B) {
       return players[1];
@@ -54,16 +60,8 @@ public class Board {
     }
   }
 
-  public Board(Board b) {
-   pieces = b.pieces;
-  }
-    
   boolean isEmpty(Coord position) {
     return this.pieces[position.getCol()][position.getRow()] == null;
-  }
-
-  Piece getPiece(Coord c) {
-    return pieces[c.getCol()][c.getRow()];
   }
 
   List<Piece> getPieces(pieceColor c) {
@@ -77,6 +75,10 @@ public class Board {
     }
 
     return pieceList;
+  }
+
+  Piece getPiece(Coord c) {
+    return pieces[c.getCol()][c.getRow()];
   }
 
   public void clearPiece(Coord c) {

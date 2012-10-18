@@ -8,7 +8,6 @@ public class Queen extends Piece {
     super(color, moveShape.EITHER);
   }
 
-
   @Override
   pieceType getType() {
     return pieceType.Q;
@@ -23,7 +22,7 @@ public class Queen extends Piece {
   @Override
   void move(Board b, Coord from, Coord to) {
     // TODO Auto-generated method stub
-    
+
   }
 
 }

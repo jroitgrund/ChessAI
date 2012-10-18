@@ -9,7 +9,7 @@ public class King extends Piece {
 
   @Override
   boolean validThreat(Board b, Coord from, Coord to) {
-    return (!freeDest(b, from, to) || Coord.distance(from,to) != 1);
+    return (!freeDest(b, from, to) || Coord.distance(from, to) != 1);
   }
 
   @Override
@@ -23,11 +23,10 @@ public class King extends Piece {
     return null;
   }
 
-
   @Override
   void move(Board b, Coord from, Coord to) {
     // TODO Auto-generated method stub
-    
+
   }
 
 }

@@ -7,8 +7,7 @@ public class Rook extends Piece {
   Rook(pieceColor color) {
     super(color, moveShape.STRAIGHT);
   }
-
-  @Override
+  
   pieceType getType() {
     return pieceType.R;
   }
@@ -22,7 +21,7 @@ public class Rook extends Piece {
   @Override
   void move(Board b, Coord from, Coord to) {
     // TODO Auto-generated method stub
-    
+
   }
 
 }
