@@ -96,8 +96,8 @@ public class Board {
         if (pieces[i][j] == null) {
           c = ' ';
         } else {
+        }
       }
-    }
     }
   }
 
