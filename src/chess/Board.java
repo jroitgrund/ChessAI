@@ -10,10 +10,13 @@ public class Board {
 
   private PlayerInfo[] players;
 
+  private pieceColor   currentPlayer;
+
   Board(Board b) {
     pieces = b.pieces;
     players[0] = new PlayerInfo(b.players[0]);
     players[1] = new PlayerInfo(b.players[1]);
+    currentPlayer = pieceColor.W;
   }
 
   Board() {
@@ -80,6 +83,23 @@ public class Board {
 
   void clearPiece(Coord c) {
     pieces[c.getCol()][c.getRow()] = null;
+  }
+
+  void switchPlayer() {
+    currentPlayer = currentPlayer.opposite();
+  }
+
+  String getCurrentPlayer() {
+    if (currentPlayer == pieceColor.B) {
+      return "black";
+    }
+    else {
+      return "white";
+    }
+  }
+
+  boolean isFinished() {
+    return false;
   }
 
   void display() {
