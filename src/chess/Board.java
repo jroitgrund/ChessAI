@@ -134,6 +134,7 @@ public class Board {
     if (p != null && p.getColor() == getCurrentPlayer()) {
       if (p.validMove(this, from, to)) {
         p.move(this, from, to);
+        switchPlayer();
         return true;
       }
     }
