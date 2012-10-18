@@ -29,7 +29,7 @@ public class Pawn extends Piece {
 
     // If there is a piece that has the same color as this at to then
     // illegal
-    if (b.getColor(to) == getColor()) {
+    if (b.getPiece(to).getColor() == getColor()) {
       return false;
     }
 
