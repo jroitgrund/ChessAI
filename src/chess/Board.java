@@ -41,11 +41,11 @@ public class Board {
     pieces[6][7] = new Knight(pieceColor.B);
     pieces[2][0] = new Bishop(pieceColor.W);
     pieces[5][0] = new Bishop(pieceColor.W);
-    pieces[3][7] = new Bishop(pieceColor.B);
-    pieces[4][7] = new Bishop(pieceColor.B);
+    pieces[2][7] = new Bishop(pieceColor.B);
+    pieces[5][7] = new Bishop(pieceColor.B);
     pieces[3][0] = new Queen(pieceColor.W);
-    pieces[4][7] = new Queen(pieceColor.B);
-    pieces[3][0] = new King(pieceColor.W);
+    pieces[3][7] = new Queen(pieceColor.B);
+    pieces[4][0] = new King(pieceColor.W);
     pieces[4][7] = new King(pieceColor.B);
   }
 
@@ -99,16 +99,15 @@ public class Board {
   }
 
   String display() {
+    char columns[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
     StringBuilder sb = new StringBuilder(182);
-    char rows[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
-    int row_name = 0;
     sb.append("\n");
-    for (int i = 0; i < 8; i++) {
-      sb.append(rows[row_name]);
+    for (int i = 7; i >= 0; i--) {
+      sb.append(i + 1);
       sb.append(" ");
       sb.append("|");
       for (int j = 0; j < 8; j++) {
-        Piece p = pieces[i][j];
+        Piece p = pieces[j][i];
         if (p == null) {
           sb.append(" ");
         }
@@ -123,12 +122,11 @@ public class Board {
         sb.append("|");
       }
       sb.append("\n");
-      row_name++;
     }
-    sb.append(" ");
-    for (int i = 1; i < 9; i++) {
+    sb.append("  ");
+    for (int i = 0; i < 8; i++) {
       sb.append(" ");
-      sb.append(i);
+      sb.append(columns[i]);
     }
     sb.append("\n");
     System.out.println("LENGTH OF BOARD STRING IS " + sb.length());
