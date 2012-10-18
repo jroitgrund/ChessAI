@@ -44,6 +44,9 @@ public abstract class Piece {
   }
 
   boolean validMove(Board b, Coord from, Coord to) {
+    if (!validDest(b, from, to)) {
+      return false;
+    }
     if (b.getPiece(to).getType() == pieceType.K) {
       return false;
     }
