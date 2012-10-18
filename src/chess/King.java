@@ -4,7 +4,7 @@ import java.util.List;
 
 public class King extends Piece {
   King(pieceColor color) {
-    super(color);
+    super(color, moveShape.EITHER);
   }
 
   @Override
@@ -47,6 +47,12 @@ public class King extends Piece {
   boolean validMove(Board b, Coord from, Coord to) {
     // TODO Auto-generated method stub
     return false;
+  }
+
+  @Override
+  void move(Board b, Coord from, Coord to) {
+    // TODO Auto-generated method stub
+    
   }
 
 }

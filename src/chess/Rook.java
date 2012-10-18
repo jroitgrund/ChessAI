@@ -5,8 +5,7 @@ import java.util.List;
 public class Rook extends Piece {
 
   Rook(pieceColor color) {
-    super(color);
-    shape = moveShape.STRAIGHT;
+    super(color, moveShape.STRAIGHT);
   }
 
   @Override
@@ -70,6 +69,12 @@ public class Rook extends Piece {
   boolean validMove(Board b, Coord from, Coord to) {
     // TODO Auto-generated method stub
     return false;
+  }
+
+  @Override
+  void move(Board b, Coord from, Coord to) {
+    // TODO Auto-generated method stub
+    
   }
 
 }

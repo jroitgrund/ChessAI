@@ -7,8 +7,7 @@ public class Pawn extends Piece {
   boolean enPassant;
 
   Pawn(pieceColor color) {
-    super(color);
-    shape = moveShape.STRAIGHT;
+    super(color, moveShape.STRAIGHT);
   }
 
   @Override
@@ -72,6 +71,12 @@ public class Pawn extends Piece {
   boolean validMove(Board b, Coord from, Coord to) {
     // TODO Auto-generated method stub
     return false;
+  }
+
+  @Override
+  void move(Board b, Coord from, Coord to) {
+    // TODO Auto-generated method stub
+    
   }
 
 }
