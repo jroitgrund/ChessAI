@@ -13,7 +13,7 @@ public class Knight extends Piece {
 
     int lengthCol = Math.abs(from.getCol() - to.getCol());
     int lengthRow = Math.abs(from.getRow() - to.getRow());
-    
+
     if (!freeDest(b, from, to)) {
       return false;
     }
@@ -22,19 +22,19 @@ public class Knight extends Piece {
     if (lengthCol != 2 && lengthRow != 1 || lengthCol != 1 && lengthRow != 2) {
       return false;
     }
-    
+
     if (b.getPiece(to).getType() == pieceType.K) {
       return false;
     }
-    
+
     if (from.equals(to)) {
       return false;
     }
-    
+
     if (!freeDest(b, from, to)) {
       return false;
     }
-    
+
     return false;
 
   }

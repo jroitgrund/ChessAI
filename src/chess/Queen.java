@@ -18,7 +18,7 @@ public class Queen extends Piece {
     if (lengthCol != lengthRow && (lengthCol != 0 || lengthRow != 0)) {
       return false;
     }
-    
+
     if (!freeDest(b, from, to)) {
       return false;
     }

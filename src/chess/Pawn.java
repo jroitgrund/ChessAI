@@ -23,17 +23,17 @@ public class Pawn extends Piece {
     if (lengthRow > 0) {
       return false;
     }
-    
+
     if (!freeDest(b, from, to)) {
       return false;
     }
-    
+
     // If there is a piece that has the same color as this at to then
     // illegal
     if (b.getColor(to) == getColor()) {
       return false;
     }
-    
+
     boolean down = from.getRow() < to.getRow();
     int row;
     if (down) {
@@ -41,7 +41,7 @@ public class Pawn extends Piece {
     } else {
       row = 1;
     }
-    
+
     // If length == 2 check for the special case
     if (lengthCol == 2) {
       if (!(from.getRow() == 1 || from.getRow() == 6)) {

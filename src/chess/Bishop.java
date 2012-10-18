@@ -18,8 +18,8 @@ public class Bishop extends Piece {
     if (lengthCol != lengthRow) {
       return false;
     }
-    
-		if (!freeDest(b, from, to)) {
+
+    if (!freeDest(b, from, to)) {
       return false;
     }
 

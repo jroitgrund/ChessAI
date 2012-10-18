@@ -10,11 +10,11 @@ public class King extends Piece {
 
   @Override
   boolean validThreat(Board b, Coord from, Coord to) {
-    
+
     if (!freeDest(b, from, to)) {
       return false;
     }
-    
+
     Board bPrime = new Board(b);
     bPrime.setPiece(to, this);
     bPrime.clearPiece(from);
@@ -32,7 +32,6 @@ public class King extends Piece {
     }
     return true;
   }
-
 
   @Override
   pieceType getType() {

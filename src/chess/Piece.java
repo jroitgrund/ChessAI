@@ -21,11 +21,11 @@ public abstract class Piece {
     if (b.getPiece(to).getColor() == color) {
       return false;
     }
-    
+
     // If there is a King at to then illegal
     if (b.getPiece(to).getType() == pieceType.K) {
       return false;
-    } 
+    }
 
     return true;
   }

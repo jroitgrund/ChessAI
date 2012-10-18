@@ -14,7 +14,7 @@ public class Rook extends Piece {
 
     int lengthCol = Math.abs(from.getCol() - to.getCol());
     int lengthRow = Math.abs(from.getRow() - to.getRow());
-    
+
     if (!freeDest(b, from, to)) {
       return false;
     }
