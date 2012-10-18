@@ -1,6 +1,7 @@
 
 package chess;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Rook extends Piece {
@@ -11,7 +12,6 @@ public class Rook extends Piece {
 
   @Override
   List<Coord> getMoves() {
-    // TODO Auto-generated method stub
-    return null;
   }
+  
 }

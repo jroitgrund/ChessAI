@@ -1,6 +1,7 @@
 
 package chess;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Bishop extends Piece {
@@ -10,8 +11,8 @@ public class Bishop extends Piece {
   }
 
   @Override
-  List<Coord> getMoves() {
-    // TODO Auto-generated method stub
-    return null;
+  List<Coord> getMoves(Board b, Coord from) {
+    ArrayList<Coord> l = new ArrayList<Coord>();
+    return getMoves_Direction(l, b, from);  
   }
 }
