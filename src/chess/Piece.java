@@ -16,10 +16,17 @@ public abstract class Piece {
 
   private moveShape  shape;
 
-  Piece(pieceColor color, moveShape shape, pieceType type) {
+  private int        value;
+
+  Piece(pieceColor color, moveShape shape, pieceType type, int value) {
     this.color = color;
     this.shape = shape;
     this.type = type;
+    this.value = value;
+  }
+
+  int getValue() {
+    return value;
   }
 
   pieceType getType() {

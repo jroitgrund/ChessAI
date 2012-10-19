@@ -7,7 +7,7 @@ import java.util.List;
 public class Rook extends Piece {
 
   Rook(pieceColor color) {
-    super(color, moveShape.STRAIGHT, pieceType.R);
+    super(color, moveShape.STRAIGHT, pieceType.R, 5);
   }
 
   List<Coord> getMoves(Board b, Coord from) {

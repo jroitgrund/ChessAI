@@ -7,7 +7,7 @@ import java.util.List;
 public class Knight extends Piece {
 
   Knight(pieceColor color) {
-    super(color, moveShape.L, pieceType.N);
+    super(color, moveShape.L, pieceType.N, 3);
   }
 
   List<Coord> getMoves(Board b, Coord from) {

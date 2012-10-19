@@ -37,7 +37,7 @@ public class Pawn extends Piece {
   }
 
   Pawn(pieceColor color) {
-    super(color, moveShape.STRAIGHT, pieceType.P);
+    super(color, moveShape.STRAIGHT, pieceType.P, 1);
   }
 
   @Override

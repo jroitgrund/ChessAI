@@ -7,7 +7,7 @@ import java.util.List;
 public class Queen extends Piece {
 
   Queen(pieceColor color) {
-    super(color, moveShape.EITHER, pieceType.Q);
+    super(color, moveShape.EITHER, pieceType.Q, 9);
   }
 
   List<Coord> getMoves(Board b, Coord from) {

@@ -7,7 +7,7 @@ import java.util.List;
 public class King extends Piece {
 
   King(pieceColor color) {
-    super(color, moveShape.EITHER, pieceType.K);
+    super(color, moveShape.EITHER, pieceType.K, -1);
   }
 
   @Override

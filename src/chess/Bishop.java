@@ -7,7 +7,7 @@ import java.util.List;
 public class Bishop extends Piece {
 
   Bishop(pieceColor color) {
-    super(color, moveShape.DIAG, pieceType.B);
+    super(color, moveShape.DIAG, pieceType.B, 3);
   }
 
   List<Coord> getMoves(Board b, Coord from) {
