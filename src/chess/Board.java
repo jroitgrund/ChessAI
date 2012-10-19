@@ -189,6 +189,10 @@ public class Board {
     Piece p = getPiece(from);
     if (p != null && p.getColor() == getCurrentPlayer()) {
       if (!checkValid || p.validMove(this, from, to)) {
+        if (getPiece(to) != null) {
+          getInfo(getCurrentAdversary()).addScore(-getPiece(to).getValue());
+          getInfo(getCurrentPlayer()).addScore(getPiece(to).getValue());
+        }
         p.move(this, from, to);
         getInfo(getCurrentPlayer()).clearCheck();
         setCheck();
@@ -204,5 +208,14 @@ public class Board {
       System.out.println("Piece belongs to enemy!");
     }
     return false;
+  }
+
+  public int getScore() {
+    if (getState() == gameState.ONGOING) {
+      return getInfo(getCurrentPlayer()).getScore();
+    }
+    else {
+      return Integer.MIN_VALUE;
+    }
   }
 }

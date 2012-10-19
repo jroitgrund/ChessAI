@@ -13,12 +13,23 @@ public class PlayerInfo {
 
   private boolean canCastleKing;
 
+  private int     scoreValue;
+
   PlayerInfo(Coord c) {
+    scoreValue = 0;
     enPassant = 10;
     kingCoord = c;
     isChecked = false;
     canCastleQueen = true;
     canCastleKing = true;
+  }
+
+  void addScore(int value) {
+    scoreValue += value;
+  }
+
+  int getScore() {
+    return scoreValue;
   }
 
   boolean canCastleKing() {
