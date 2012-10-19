@@ -14,11 +14,9 @@ public class Board {
   private pieceColor   currentPlayer;
 
   private pieceColor   currentAdversary;
-  
-  private gameType win;
-  
-  protected enum gameType {
-    DRAW,CHESSMATE;
+
+  protected enum gameState {
+    DRAW, CHECKMATE, ONGOING;
   }
 
   Board(Board b) {
@@ -114,22 +112,22 @@ public class Board {
     return currentAdversary;
   }
 
-  boolean isFinished() {
+  gameState getState() {
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
-        if (pieces[i][j] != null && pieces[i][j].getColor() == getCurrentPlayer() &&
-            pieces[i][j].getMoves(this, new Coord(i,j)).size() != 0) {
-          if (getInfo(getCurrentPlayer()).isChecked()) {
-            win = gameType.CHESSMATE;
-          }
-          else {
-            win = gameType.DRAW;
-          }
-          return true;
+        Coord c = new Coord(i, j);
+        if (getPiece(c) != null && getPiece(c).getColor() == getCurrentPlayer()
+            && getPiece(c).getMoves(this, new Coord(i, j)).size() != 0) {
+          return gameState.ONGOING;
         }
       }
     }
-    return false;
+    if (getInfo(getCurrentPlayer()).isChecked()) {
+      return gameState.CHECKMATE;
+    }
+    else {
+      return gameState.DRAW;
+    }
   }
 
   String display() {
@@ -201,9 +199,4 @@ public class Board {
     }
     return false;
   }
-
-  public gameType getWin() {
-    return win;
-  }
-  
 }

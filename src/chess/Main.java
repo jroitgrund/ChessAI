@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import chess.Board.gameState;
+
 import com.sun.media.sound.InvalidFormatException;
 
 public class Main {
@@ -16,7 +18,7 @@ public class Main {
     System.out
         .println("Welcome to this game of chess! Move commands take the following format:");
     System.out.println("<row> <column>, e.g >b 2");
-    while (!b.isFinished()) {
+    while (b.getState() == gameState.ONGOING) {
       Coord selectedPiece = null;
       Coord selectedDestination = null;
       String currentPlayer = "";

@@ -1,6 +1,7 @@
 
 package chess;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -42,6 +43,7 @@ enum GameState implements State {
   PLAYING {
 
     Coord from = null;
+
     Coord to   = null;
 
     @Override
@@ -51,7 +53,8 @@ enum GameState implements State {
         for (int j = 0; j < 8; j++) {
           Piece p = cp.b.getPiece(new Coord(i, j));
           if (p != null) {
-            g.drawImage(cp.pieces[p.getColor().ordinal()][p.getType().ordinal()],
+            g.drawImage(
+                cp.pieces[p.getColor().ordinal()][p.getType().ordinal()],
                 8 + i * 28, 240 - 36 - j * 28, null);
           }
         }
@@ -71,8 +74,53 @@ enum GameState implements State {
       cp.b.move(from, to);
       from = null;
       to = null;
-      cp.repaint();
+      switch (cp.b.getState()) {
+        case ONGOING:
+          return this;
+        case CHECKMATE:
+          return VICTORY;
+        case DRAW:
+          return STALE;
+      }
       return this;
+    }
+  },
+  VICTORY {
+
+    @Override
+    public void paint(ChessPanel cp, Graphics g) {
+      g.setColor(Color.BLACK);
+      StringBuilder s = new StringBuilder(11);
+      switch (cp.b.getCurrentPlayer()) {
+        case B:
+          s.append("Black");
+        case W:
+          s.append("White");
+      }
+      s.append(" wins!");
+      g.drawString(s.toString(), 120, 120);
+      g.drawString("Click to restart", 120, 160);
+    }
+
+    @Override
+    public GameState mouseReleased(ChessPanel cp, MouseEvent e) {
+      cp.b = new Board();
+      return PLAYING;
+    }
+  },
+  STALE {
+
+    @Override
+    public void paint(ChessPanel cp, Graphics g) {
+      g.setColor(Color.BLACK);
+      g.drawString("Stalemate", 120, 120);
+      g.drawString("Click to restart", 120, 160);
+    }
+
+    @Override
+    public GameState mouseReleased(ChessPanel cp, MouseEvent e) {
+      cp.b = new Board();
+      return PLAYING;
     }
   };
 }
@@ -93,7 +141,7 @@ class ChessPanel extends JPanel implements MouseListener {
 
   Board             b;
 
-  private GameState         state;
+  private GameState state;
 
   public ChessPanel() {
     state = GameState.PLAYING;
@@ -146,6 +194,7 @@ class ChessPanel extends JPanel implements MouseListener {
 
   @Override
   public void mouseReleased(MouseEvent e) {
-    state.mouseReleased(this, e);
+    state = state.mouseReleased(this, e);
+    repaint();
   }
 }
