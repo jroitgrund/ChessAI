@@ -71,22 +71,32 @@ public abstract class Piece {
 
   boolean validMove(Board b, Coord from, Coord to) {
     if (!validDest(b, from, to)) {
-      System.out.println("valid dest returned false");
+      // System.out.println("valid dest returned false for " + getType() + " ["
+      // + from.getCol() + ", " + from.getRow() + "] - [" + to.getCol() + ", " +
+      // to.getRow() + "]");
       return false;
     }
     if (b.getPiece(to) != null && b.getPiece(to).getType() == pieceType.K) {
-      System.out.println("king in destination square");
+      // System.out.println("king in destination square");
       return false;
     }
     Board bPrime = new Board(b);
     move(bPrime, from, to);
+    if (from.equals(new Coord(4, 7)) && to.equals(new Coord(5, 6))) {
+      System.out.println("Checking if king can attack queen:");
+    }
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
         Coord c = new Coord(i, j);
         if (!bPrime.isEmpty(c)
+            && bPrime.getPiece(c).getColor() == getColor().opposite()
             && bPrime.getPiece(c).validThreat(bPrime, c,
-                bPrime.getInfo(color).getKing())) {
-          System.out.println("King would be exposed");
+                bPrime.getInfo(getColor()).getKing())) {
+          if (from.equals(new Coord(4, 7)) && to.equals(new Coord(5, 6))) {
+            System.out.println("King would be exposed to [" + c.getCol() + ", "
+                + c.getRow() + "]");
+          }
+          // System.out.println("King would be exposed");
           return false;
         }
       }
@@ -110,7 +120,6 @@ public abstract class Piece {
     switch (shape) {
       case DIAG:
         if (Math.abs(colDiff) != Math.abs(rowDiff)) {
-          System.out.println("Incorrect diagonal move: rowDiff != colDiff");
           return false;
         }
         break;
@@ -135,8 +144,10 @@ public abstract class Piece {
     for (Coord c = new Coord(c1, colStep, rowStep); !c.equals(c2); c = new Coord(
         c, colStep, rowStep)) {
       if (!b.isEmpty(c)) {
-        System.out.println("Coordinate [" + c.getCol() + ", " + c.getRow()
-            + "] is blocking path");
+        /*
+         * System.out.println("Coordinate [" + c.getCol() + ", " + c.getRow() +
+         * "] is blocking path");
+         */
         return false;
       }
     }

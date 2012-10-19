@@ -71,17 +71,27 @@ enum GameState implements State {
         return this;
       }
       to = c;
-      cp.b.move(from, to);
+      if (!from.inBoard() || !to.inBoard()) {
+        from = null;
+        to = null;
+        return this;
+      }
+      if (cp.b.move(from, to)) {
+        from = null;
+        to = null;
+        System.out.println("Gui finished moving");
+        System.out.println("new state " + cp.b.getState());
+        switch (cp.b.getState()) {
+          case ONGOING:
+            return this;
+          case CHECKMATE:
+            return VICTORY;
+          case DRAW:
+            return STALE;
+        }
+      }
       from = null;
       to = null;
-      switch (cp.b.getState()) {
-        case ONGOING:
-          return this;
-        case CHECKMATE:
-          return VICTORY;
-        case DRAW:
-          return STALE;
-      }
       return this;
     }
   },
@@ -89,13 +99,16 @@ enum GameState implements State {
 
     @Override
     public void paint(ChessPanel cp, Graphics g) {
+      PLAYING.paint(cp, g);
       g.setColor(Color.BLACK);
       StringBuilder s = new StringBuilder(11);
       switch (cp.b.getCurrentPlayer()) {
-        case B:
-          s.append("Black");
         case W:
+          s.append("Black");
+          break;
+        case B:
           s.append("White");
+          break;
       }
       s.append(" wins!");
       g.drawString(s.toString(), 120, 120);
@@ -112,6 +125,7 @@ enum GameState implements State {
 
     @Override
     public void paint(ChessPanel cp, Graphics g) {
+      PLAYING.paint(cp, g);
       g.setColor(Color.BLACK);
       g.drawString("Stalemate", 120, 120);
       g.drawString("Click to restart", 120, 160);
@@ -196,5 +210,6 @@ class ChessPanel extends JPanel implements MouseListener {
   public void mouseReleased(MouseEvent e) {
     state = state.mouseReleased(this, e);
     repaint();
+    System.out.println("Done with outer mouseReleased");
   }
 }
