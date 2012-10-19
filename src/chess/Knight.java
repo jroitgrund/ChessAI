@@ -11,13 +11,11 @@ public class Knight extends Piece {
   }
 
   List<Coord> getMoves(Board b, Coord from) {
-    ArrayList<Coord> l = new ArrayList<Coord>();
-    int first_indexes[] = { -2, 2 };
-    int second_indexes[] = { -1, 1 };
-    this.getMoves_Direction(l, b, from, first_indexes, second_indexes);
-    this.getMoves_Direction(l, b, from, first_indexes, first_indexes);
-    this.getMoves_Direction(l, b, from, second_indexes, first_indexes);
-    this.getMoves_Direction(l, b, from, second_indexes, second_indexes);
+    List<Coord> l = new ArrayList<Coord>();
+    int doubleIndexes[] = { -2, 2 };
+    int singleIndexes[] = { -1, 1 };
+    this.getMovesDirection(l, b, from, singleIndexes, doubleIndexes);
+    this.getMovesDirection(l, b, from, doubleIndexes, singleIndexes);
     return l;
   }
 }

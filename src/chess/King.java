@@ -16,9 +16,9 @@ public class King extends Piece {
   }
 
   List<Coord> getMoves(Board b, Coord from) {
-    ArrayList<Coord> l = new ArrayList<Coord>();
-    int first_indexes[] = { -1, 0, 1 };
-    this.getMoves_Direction(l, b, from, first_indexes, first_indexes);
+    List<Coord> l = new ArrayList<Coord>();
+    int indexes[] = { -1, 0, 1 };
+    this.getMovesDirection(l, b, from, indexes, indexes);
     return l;
   }
 }

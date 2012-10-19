@@ -58,11 +58,8 @@ public class Pawn extends Piece {
   }
 
   List<Coord> getMoves(Board b, Coord from) {
-    ArrayList<Coord> l = new ArrayList<Coord>();
-    int first_indexes[] = { 1, 2 };
-    int second_indexes[] = { 0 };
-    this.getMoves_Direction(l, b, from, first_indexes, second_indexes);
-    this.getMoves_Direction(l, b, from, second_indexes, first_indexes);
+    List<Coord> l = new ArrayList<Coord>();
+    getMovesDirection(l, b, from, new int[] { 1, 2 }, new int[] { 0, 1 });
     return l;
   }
 }

@@ -11,17 +11,11 @@ public class Bishop extends Piece {
   }
 
   List<Coord> getMoves(Board b, Coord from) {
-    ArrayList<Coord> l = new ArrayList<Coord>();
-    int first_indexes[] = new int[7];
-    int second_indexes[] = new int[7];
-    for (int i = 1; i < 8; i++)
-      first_indexes[i] = i;
-    for (int i = -1; i > -8; i--)
-      second_indexes[i] = i;
-    this.getMoves_Direction(l, b, from, first_indexes, second_indexes);
-    this.getMoves_Direction(l, b, from, first_indexes, first_indexes);
-    this.getMoves_Direction(l, b, from, second_indexes, first_indexes);
-    this.getMoves_Direction(l, b, from, second_indexes, second_indexes);
+    List<Coord> l = new ArrayList<Coord>();
+    getMovesDirection(l, b, from, -1, -1);
+    getMovesDirection(l, b, from, -1, 1);
+    getMovesDirection(l, b, from, 1, -1);
+    getMovesDirection(l, b, from, 1, 1);
     return l;
   }
 }

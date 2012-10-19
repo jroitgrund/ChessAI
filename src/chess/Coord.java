@@ -28,16 +28,17 @@ public class Coord {
   }
 
   Coord(int col, int row) {
-    if (col > 7 || row > 7) {
-      System.out.println("bad coord");
-    }
-    this.row = row & 7;
-    this.col = col & 7;
+    this.row = row;
+    this.col = col;
   }
 
   Coord(Coord c, int col, int row) {
     this.row = c.getRow() + row;
     this.col = c.getCol() + col;
+  }
+
+  boolean inBoard() {
+    return (row >= 0 && row < 8 && col >= 0 && col < 8);
   }
 
   int getRow() {
