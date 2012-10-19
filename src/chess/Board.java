@@ -118,14 +118,17 @@ public class Board {
         Coord c = new Coord(i, j);
         if (getPiece(c) != null && getPiece(c).getColor() == getCurrentPlayer()
             && getPiece(c).getMoves(this, new Coord(i, j)).size() != 0) {
+          System.out.println("returning ongoing state");
           return gameState.ONGOING;
         }
       }
     }
     if (getInfo(getCurrentPlayer()).isChecked()) {
+      System.out.println("returning checkmate");
       return gameState.CHECKMATE;
     }
     else {
+      System.out.println("returning draw");
       return gameState.DRAW;
     }
   }
@@ -165,6 +168,7 @@ public class Board {
   }
 
   void setCheck() {
+    System.out.println("calling setCheck()");
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
         Coord c = new Coord(i, j);
@@ -172,11 +176,13 @@ public class Board {
             && getPiece(c).getColor() == getCurrentPlayer()
             && getPiece(c).validThreat(this, c,
                 getInfo(getCurrentAdversary()).getKing())) {
+          System.out.println("Setting check");
           getInfo(getCurrentAdversary()).setCheck();
           return;
         }
       }
     }
+    System.out.println("King is safe, no check");
   }
 
   boolean move(Coord from, Coord to) {
