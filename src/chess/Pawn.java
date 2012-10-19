@@ -52,7 +52,8 @@ public class Pawn extends Piece {
     if (validThreat(b, from, to)) {
       return true;
     }
-    if (!freeDest(b, from, to)) {
+    if (b.getPiece(to) != null)
+    {
       return false;
     }
     if (rowDiff == 2 && realRow == 1 && colDiff == 0) {

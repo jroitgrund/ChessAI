@@ -212,7 +212,7 @@ public class Board {
     }
     else {
       System.out.println("get score says: you're checkmated, mate");
-      return Integer.MIN_VALUE;
+      return -5000;
     }
   }
 }

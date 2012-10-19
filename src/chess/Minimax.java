@@ -13,7 +13,7 @@ public class Minimax {
     if (depth <= 0 || b.getState() != gameState.ONGOING) {
       return b.getScore();
     }
-    int bestScore = Integer.MIN_VALUE;
+    int bestScore = -5000;
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
         Coord from = new Coord(i, j);
@@ -28,12 +28,13 @@ public class Minimax {
         }
       }
     }
+    System.out.println("white's best score is " + bestScore);
     return bestScore;
   }
 
   public static Move bestMove(Board b) {
     Move bestMove = null;
-    int bestScore = Integer.MIN_VALUE;
+    int bestScore = -5000;
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
         Coord from = new Coord(i, j);

@@ -109,7 +109,7 @@ public abstract class Piece {
     if (from.equals(to)) {
       return false;
     }
-    if (b.getPiece(to) != null && b.getPiece(to).getColor() == color) {
+    if (b.getPiece(to) != null && b.getPiece(to).getColor() == getColor()) {
       return false;
     }
     return true;
