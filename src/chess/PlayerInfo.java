@@ -9,10 +9,24 @@ public class PlayerInfo {
 
   private boolean isChecked;
 
+  private boolean canCastleQueen;
+
+  private boolean canCastleKing;
+
   PlayerInfo(Coord c) {
     enPassant = 10;
     kingCoord = c;
     isChecked = false;
+    canCastleQueen = true;
+    canCastleKing = true;
+  }
+
+  boolean canCastleKing() {
+    return canCastleKing;
+  }
+
+  boolean canCastleQueen() {
+    return canCastleQueen;
   }
 
   PlayerInfo(PlayerInfo pi) {
