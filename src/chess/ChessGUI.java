@@ -39,65 +39,64 @@ public class ChessGUI {
 }
 
 enum GameState implements State {
-  GETFROM {
+  PLAYING {
+
+    Coord from = null;
+    Coord to   = null;
 
     @Override
-    public void paint(Graphics g) {
-      // TODO Auto-generated method stub
+    public void paint(ChessPanel cp, Graphics g) {
+      g.drawImage(cp.bg, 0, 0, null);
+      for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+          Piece p = cp.b.getPiece(new Coord(i, j));
+          if (p != null) {
+            g.drawImage(cp.pieces[p.getColor().ordinal()][p.getType().ordinal()],
+                8 + i * 28, 240 - 36 - j * 28, null);
+          }
+        }
+      }
     }
 
     @Override
-    public GameState mouseReleased(MouseEvent e) {
-      super(e);
+    public GameState mouseReleased(ChessPanel cp, MouseEvent e) {
       int x = e.getX() - 8;
       int y = 240 - e.getY() - 8;
-      c = new Coord(x / 28, y / 28);
-    }
-  },
-  GETTO {
-
-    @Override
-    public void paint(Graphics g) {
-      // TODO Auto-generated method stub
-    }
-
-    @Override
-    public GameState mouseReleased(MouseEvent e) {
-      super(e);
+      Coord c = new Coord(x / 28, y / 28);
+      if (from == null) {
+        from = c;
+        return this;
+      }
+      to = c;
+      cp.b.move(from, to);
+      from = null;
+      to = null;
+      cp.repaint();
+      return this;
     }
   };
 }
 
 interface State {
-  
-  Coord c;
-  Coord from;
-  Coord to;
 
-  void paint(Graphics g) {
-    
-  }
+  void paint(ChessPanel cp, Graphics g);
 
-  GameState mouseReleased(MouseEvent e) {
-  }
+  GameState mouseReleased(ChessPanel cp, MouseEvent e);
 }
 
 @SuppressWarnings("serial")
 class ChessPanel extends JPanel implements MouseListener {
 
-  private BufferedImage[][] pieces;
+  BufferedImage[][] pieces;
 
-  private BufferedImage     bg;
+  BufferedImage     bg;
 
-  private Board             b;
-
-  private Coord             from;
-
-  private Coord             to;
+  Board             b;
 
   private GameState         state;
 
   public ChessPanel() {
+    state = GameState.PLAYING;
     pieces = new BufferedImage[2][6];
     try {
       pieces[0][0] = ImageIO.read(new File("img/whites/white_p.png"));
@@ -126,16 +125,7 @@ class ChessPanel extends JPanel implements MouseListener {
   }
 
   protected void paintComponent(Graphics g) {
-    g.drawImage(bg, 0, 0, null);
-    for (int i = 0; i < 8; i++) {
-      for (int j = 0; j < 8; j++) {
-        Piece p = b.getPiece(new Coord(i, j));
-        if (p != null) {
-          g.drawImage(pieces[p.getColor().ordinal()][p.getType().ordinal()],
-              8 + i * 28, 240 - 36 - j * 28, null);
-        }
-      }
-    }
+    state.paint(this, g);
   }
 
   @Override
@@ -156,6 +146,6 @@ class ChessPanel extends JPanel implements MouseListener {
 
   @Override
   public void mouseReleased(MouseEvent e) {
-    state.mouseReleased();
+    state.mouseReleased(this, e);
   }
 }
