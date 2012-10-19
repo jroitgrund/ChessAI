@@ -44,8 +44,6 @@ enum GameState implements State {
 
     Coord from = null;
 
-    Coord to   = null;
-
     @Override
     public void paint(ChessPanel cp, Graphics g) {
       g.drawImage(cp.bg, 0, 0, null);
@@ -63,24 +61,13 @@ enum GameState implements State {
 
     @Override
     public GameState mouseReleased(ChessPanel cp, MouseEvent e) {
-      int x = e.getX() - 8;
-      int y = 240 - e.getY() - 8;
-      Coord c = new Coord(x / 28, y / 28);
-      if (from == null) {
-        from = c;
+      Coord b = from;
+      Coord c = getCoord(e);
+      from = null;
+      if (b == null || !c.inBoard()) {
         return this;
       }
-      to = c;
-      if (!from.inBoard() || !to.inBoard()) {
-        from = null;
-        to = null;
-        return this;
-      }
-      if (cp.b.move(from, to)) {
-        from = null;
-        to = null;
-        System.out.println("Gui finished moving");
-        System.out.println("new state " + cp.b.getState());
+      if (cp.b.move(b, c)) {
         switch (cp.b.getState()) {
           case ONGOING:
             return this;
@@ -90,9 +77,25 @@ enum GameState implements State {
             return STALE;
         }
       }
-      from = null;
-      to = null;
       return this;
+    }
+
+    @Override
+    public GameState mousePressed(ChessPanel cp, MouseEvent e) {
+      Coord c = getCoord(e);
+      if (!c.inBoard()) {
+        from = null;
+      }
+      else {
+        from = c;
+      }
+      return this;
+    }
+
+    private Coord getCoord(MouseEvent e) {
+      int x = e.getX() - 8;
+      int y = 240 - e.getY() - 8;
+      return new Coord(x / 28, y / 28);
     }
   },
   VICTORY {
@@ -120,6 +123,11 @@ enum GameState implements State {
       cp.b = new Board();
       return PLAYING;
     }
+
+    @Override
+    public GameState mousePressed(ChessPanel cp, MouseEvent e) {
+      return this;
+    }
   },
   STALE {
 
@@ -136,6 +144,11 @@ enum GameState implements State {
       cp.b = new Board();
       return PLAYING;
     }
+
+    @Override
+    public GameState mousePressed(ChessPanel cp, MouseEvent e) {
+      return this;
+    }
   };
 }
 
@@ -144,6 +157,8 @@ interface State {
   void paint(ChessPanel cp, Graphics g);
 
   GameState mouseReleased(ChessPanel cp, MouseEvent e);
+
+  GameState mousePressed(ChessPanel cp, MouseEvent e);
 }
 
 @SuppressWarnings("serial")
@@ -204,6 +219,8 @@ class ChessPanel extends JPanel implements MouseListener {
 
   @Override
   public void mousePressed(MouseEvent e) {
+    state = state.mousePressed(this, e);
+    repaint();
   }
 
   @Override
