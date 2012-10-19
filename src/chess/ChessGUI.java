@@ -67,7 +67,7 @@ enum GameState implements State {
       if (b == null || !c.inBoard()) {
         return this;
       }
-      if (cp.b.move(b, c)) {
+      if (cp.b.move(b, c, true)) {
         switch (cp.b.getState()) {
           case ONGOING:
             return this;

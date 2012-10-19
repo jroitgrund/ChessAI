@@ -185,10 +185,10 @@ public class Board {
     System.out.println("King is safe, no check");
   }
 
-  boolean move(Coord from, Coord to) {
+  boolean move(Coord from, Coord to, boolean checkValid) {
     Piece p = getPiece(from);
     if (p != null && p.getColor() == getCurrentPlayer()) {
-      if (p.validMove(this, from, to)) {
+      if (!checkValid || p.validMove(this, from, to)) {
         p.move(this, from, to);
         getInfo(getCurrentPlayer()).clearCheck();
         setCheck();

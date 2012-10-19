@@ -60,7 +60,7 @@ public class Main {
       System.out.println("Trying to move [" + selectedPiece.getCol() + ", "
           + selectedPiece.getRow() + "] to [" + selectedDestination.getCol()
           + ", " + selectedDestination.getRow() + "]");
-      if (!b.move(selectedPiece, selectedDestination)) {
+      if (!b.move(selectedPiece, selectedDestination, true)) {
         System.out.println("Incorrect move!");
       }
     }
