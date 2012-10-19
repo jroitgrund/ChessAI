@@ -37,6 +37,10 @@ public abstract class Piece {
       if (validMove(b, from, to)) {
         l.add(to);
       }
+      // There is already something on the path of the piece.
+      else {
+        break;
+      }
     return l;
   }
 
@@ -71,13 +75,9 @@ public abstract class Piece {
 
   boolean validMove(Board b, Coord from, Coord to) {
     if (!validDest(b, from, to)) {
-      // System.out.println("valid dest returned false for " + getType() + " ["
-      // + from.getCol() + ", " + from.getRow() + "] - [" + to.getCol() + ", " +
-      // to.getRow() + "]");
       return false;
     }
     if (b.getPiece(to) != null && b.getPiece(to).getType() == pieceType.K) {
-      // System.out.println("king in destination square");
       return false;
     }
     Board bPrime = new Board(b);

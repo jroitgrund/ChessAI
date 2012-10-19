@@ -18,4 +18,14 @@ public class Rook extends Piece {
     l.addAll(getMovesDirection(b, from, 1, 0));
     return l;
   }
+
+  void move(Board b, Coord from, Coord to) {
+    super.move(b, from, to);
+    if (from.equals(new Coord(0, 0)) || from.equals(new Coord(0, 7))) {
+      b.getInfo(getColor()).noCastleQueen();
+    }
+    else if (from.equals(new Coord(0, 7)) || from.equals(new Coord(7, 7))) {
+      b.getInfo(getColor()).noCastleKing();
+    }
+  }
 }

@@ -29,6 +29,16 @@ public class PlayerInfo {
     return canCastleQueen;
   }
 
+  PlayerInfo noCastleQueen() {
+    canCastleQueen = false;
+    return this;
+  }
+
+  PlayerInfo noCastleKing() {
+    canCastleKing = false;
+    return this;
+  }
+
   PlayerInfo(PlayerInfo pi) {
     enPassant = pi.getEnPassant();
     kingCoord = pi.getKing();
