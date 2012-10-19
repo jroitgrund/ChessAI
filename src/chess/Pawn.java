@@ -21,7 +21,20 @@ public class Pawn extends Piece {
     realRow += from.getRow() * invert;
   }
 
-  boolean enPassant;
+  @Override
+  void move(Board b, Coord from, Coord to) {
+    setInfo(b, from, to);
+    if (rowDiff == 2) {
+      b.getInfo(getColor()).setEnPassant(to.getCol());
+    }
+    else if (rowDiff == 1 && colDiff == 1 && b.getPiece(to) == null) {
+      b.clearPiece(new Coord(to.getCol(), to.getRow() - 1 * invert));
+    }
+    super.move(b, from, to);
+    if (realRow + 1 == 7) {
+      b.setPiece(to, new Queen(getColor()));
+    }
+  }
 
   Pawn(pieceColor color) {
     super(color, moveShape.STRAIGHT, pieceType.P);

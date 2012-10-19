@@ -33,12 +33,12 @@ public class PlayerInfo {
     return isChecked;
   }
 
-  void setChess() {
-    this.isChecked = true;
+  void setCheck() {
+    isChecked = true;
   }
 
-  void unsetChess() {
-    this.isChecked = false;
+  void clearCheck() {
+    isChecked = false;
   }
 
   void setKing(Coord c) {

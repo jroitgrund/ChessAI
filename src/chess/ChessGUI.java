@@ -39,24 +39,47 @@ public class ChessGUI {
 }
 
 enum GameState implements State {
-  GETFROM, GETTO;
+  GETFROM {
 
-  @Override
-  public void paint(Graphics g) {
-    // TODO Auto-generated method stub
-  }
+    @Override
+    public void paint(Graphics g) {
+      // TODO Auto-generated method stub
+    }
 
-  @Override
-  public void mouseReleased(MouseEvent e) {
-    // TODO Auto-generated method stub
-  }
+    @Override
+    public GameState mouseReleased(MouseEvent e) {
+      super(e);
+      int x = e.getX() - 8;
+      int y = 240 - e.getY() - 8;
+      c = new Coord(x / 28, y / 28);
+    }
+  },
+  GETTO {
+
+    @Override
+    public void paint(Graphics g) {
+      // TODO Auto-generated method stub
+    }
+
+    @Override
+    public GameState mouseReleased(MouseEvent e) {
+      super(e);
+    }
+  };
 }
 
 interface State {
+  
+  Coord c;
+  Coord from;
+  Coord to;
 
-  void paint(Graphics g);
+  void paint(Graphics g) {
+    
+  }
 
-  void mouseReleased(MouseEvent e);
+  GameState mouseReleased(MouseEvent e) {
+  }
 }
 
 @SuppressWarnings("serial")
@@ -133,26 +156,6 @@ class ChessPanel extends JPanel implements MouseListener {
 
   @Override
   public void mouseReleased(MouseEvent e) {
-    int x = e.getX() - 8;
-    int y = 240 - e.getY() - 8;
-    Coord c = new Coord(x / 28, y / 28);
-    switch (state) {
-      case GETFROM:
-        from = c;
-        System.out.println("Set from to [" + c.getCol() + ", " + c.getRow()
-            + "]");
-        state = GameState.GETTO;
-        break;
-      case GETTO:
-        to = c;
-        System.out
-            .println("Set to to [" + c.getCol() + ", " + c.getRow() + "]");
-        if (!b.move(from, to)) {
-          System.out.println("illegal move");
-        }
-        state = GameState.GETFROM;
-        repaint();
-        break;
-    }
+    state.mouseReleased();
   }
 }

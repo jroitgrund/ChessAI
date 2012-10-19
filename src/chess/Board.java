@@ -109,10 +109,6 @@ public class Board {
   }
 
   boolean isFinished() {
-    // Return true is chessmate, or stalemate
-    if (getInfo(currentAdversary).isChecked()) {
-      getInfo(currentAdversary).unsetChess();
-    }
     return false;
   }
 
@@ -150,11 +146,28 @@ public class Board {
     return sb.toString();
   }
 
+  void setCheck() {
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        Coord c = new Coord(i, j);
+        if (getPiece(c) != null
+            && getPiece(c).getColor() == getCurrentPlayer()
+            && getPiece(c).validThreat(this, c,
+                getInfo(getCurrentAdversary()).getKing())) {
+          getInfo(getCurrentAdversary()).setCheck();
+          return;
+        }
+      }
+    }
+  }
+
   boolean move(Coord from, Coord to) {
     Piece p = getPiece(from);
     if (p != null && p.getColor() == getCurrentPlayer()) {
       if (p.validMove(this, from, to)) {
         p.move(this, from, to);
+        getInfo(getCurrentPlayer()).clearCheck();
+        setCheck();
         switchPlayer();
         getInfo(getCurrentPlayer()).clearEnPassant();
         return true;
@@ -165,9 +178,6 @@ public class Board {
     }
     else if (p.getColor() != getCurrentPlayer()) {
       System.out.println("Piece belongs to enemy!");
-    }
-    if (p.validThreat(this, to, getInfo(currentAdversary).getKing())) {
-      getInfo(currentAdversary).setChess();
     }
     return false;
   }
