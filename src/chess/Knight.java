@@ -14,8 +14,8 @@ public class Knight extends Piece {
     List<Coord> l = new ArrayList<Coord>();
     int doubleIndexes[] = { -2, 2 };
     int singleIndexes[] = { -1, 1 };
-    this.getMovesDirection(l, b, from, singleIndexes, doubleIndexes);
-    this.getMovesDirection(l, b, from, doubleIndexes, singleIndexes);
+    l.addAll(getMovesDirection(b, from, singleIndexes, doubleIndexes));
+    l.addAll(getMovesDirection(b, from, doubleIndexes, singleIndexes));
     return l;
   }
 }

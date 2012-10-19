@@ -30,16 +30,19 @@ public abstract class Piece {
     return color;
   }
 
-  void getMovesDirection(List<Coord> l, Board b, Coord from, int dCol, int dRow) {
+  List<Coord> getMovesDirection(Board b, Coord from, int dCol, int dRow) {
+    List<Coord> l = new ArrayList<Coord>();
     Coord to = from;
     while ((to = new Coord(to, dCol, dRow)).inBoard())
       if (validMove(b, from, to)) {
         l.add(to);
       }
+    return l;
   }
 
-  void getMovesDirection(List<Coord> l, Board b, Coord from, int colIndexes[],
+  List<Coord> getMovesDirection(Board b, Coord from, int colIndexes[],
       int rowIndexes[]) {
+    List<Coord> l = new ArrayList<Coord>();
     Coord to = from;
     for (int i = 0; i < colIndexes.length; i++) {
       for (int j = 0; j < rowIndexes.length; j++) {
@@ -49,6 +52,7 @@ public abstract class Piece {
         }
       }
     }
+    return l;
   }
 
   abstract List<Coord> getMoves(Board b, Coord from);

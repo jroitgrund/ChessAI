@@ -1,7 +1,6 @@
 
 package chess;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class King extends Piece {
@@ -16,9 +15,7 @@ public class King extends Piece {
   }
 
   List<Coord> getMoves(Board b, Coord from) {
-    List<Coord> l = new ArrayList<Coord>();
     int indexes[] = { -1, 0, 1 };
-    this.getMovesDirection(l, b, from, indexes, indexes);
-    return l;
+    return getMovesDirection(b, from, indexes, indexes);
   }
 }

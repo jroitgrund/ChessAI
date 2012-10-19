@@ -14,7 +14,7 @@ public class Queen extends Piece {
     List<Coord> l = new ArrayList<Coord>();
     for (int i = -1; i <= 1; i++) {
       for (int j = -1; j <= 1; j++) {
-        getMovesDirection(l, b, from, i, j);
+        l.addAll(getMovesDirection(b, from, i, j));
       }
     }
     return l;

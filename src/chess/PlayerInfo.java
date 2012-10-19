@@ -10,15 +10,15 @@ public class PlayerInfo {
   private boolean isChecked;
 
   PlayerInfo(Coord c) {
-    this.enPassant = 10;
-    this.kingCoord = c;
-    this.isChecked = false;
+    enPassant = 10;
+    kingCoord = c;
+    isChecked = false;
   }
 
   PlayerInfo(PlayerInfo pi) {
-    this.enPassant = pi.getEnPassant();
-    this.kingCoord = pi.getKing();
-    this.isChecked = pi.isChecked;
+    enPassant = pi.getEnPassant();
+    kingCoord = pi.getKing();
+    isChecked = pi.isChecked;
   }
 
   Coord getKing() {

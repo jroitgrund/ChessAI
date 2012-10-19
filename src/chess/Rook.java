@@ -12,10 +12,10 @@ public class Rook extends Piece {
 
   List<Coord> getMoves(Board b, Coord from) {
     List<Coord> l = new ArrayList<Coord>();
-    getMovesDirection(l, b, from, -1, 0);
-    getMovesDirection(l, b, from, 0, -1);
-    getMovesDirection(l, b, from, 0, 1);
-    getMovesDirection(l, b, from, 1, 0);
+    l.addAll(getMovesDirection(b, from, -1, 0));
+    l.addAll(getMovesDirection(b, from, 0, -1));
+    l.addAll(getMovesDirection(b, from, 0, 1));
+    l.addAll(getMovesDirection(b, from, 1, 0));
     return l;
   }
 }

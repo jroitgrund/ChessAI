@@ -1,7 +1,6 @@
 
 package chess;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends Piece {
@@ -58,8 +57,6 @@ public class Pawn extends Piece {
   }
 
   List<Coord> getMoves(Board b, Coord from) {
-    List<Coord> l = new ArrayList<Coord>();
-    getMovesDirection(l, b, from, new int[] { 1, 2 }, new int[] { 0, 1 });
-    return l;
+    return getMovesDirection(b, from, new int[] { 1, 2 }, new int[] { 0, 1 });
   }
 }

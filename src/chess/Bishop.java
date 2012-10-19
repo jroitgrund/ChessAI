@@ -12,10 +12,10 @@ public class Bishop extends Piece {
 
   List<Coord> getMoves(Board b, Coord from) {
     List<Coord> l = new ArrayList<Coord>();
-    getMovesDirection(l, b, from, -1, -1);
-    getMovesDirection(l, b, from, -1, 1);
-    getMovesDirection(l, b, from, 1, -1);
-    getMovesDirection(l, b, from, 1, 1);
+    l.addAll(getMovesDirection(b, from, -1, -1));
+    l.addAll(getMovesDirection(b, from, -1, 1));
+    l.addAll(getMovesDirection(b, from, 1, -1));
+    l.addAll(getMovesDirection(b, from, 1, 1));
     return l;
   }
 }
