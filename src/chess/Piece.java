@@ -39,15 +39,17 @@ public abstract class Piece {
 
   List<Coord> getMovesDirection(Board b, Coord from, int dCol, int dRow) {
     List<Coord> l = new ArrayList<Coord>();
-    Coord to = from;
-    while ((to = new Coord(to, dCol, dRow)).inBoard())
+    Coord to = new Coord(from, dCol, dRow);
+    while (to.inBoard()) {
       if (validMove(b, from, to)) {
         l.add(to);
       }
-      // There is already something on the path of the piece.
-      else {
-        break;
-      }
+      to = new Coord(to, dCol, dRow);
+    }
+    // There is already something on the path of the piece.
+    /*
+     * else { break; }
+     */
     return l;
   }
 
@@ -89,9 +91,6 @@ public abstract class Piece {
     }
     Board bPrime = new Board(b);
     move(bPrime, from, to);
-    if (from.equals(new Coord(4, 7)) && to.equals(new Coord(5, 6))) {
-      System.out.println("Checking if king can attack queen:");
-    }
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
         Coord c = new Coord(i, j);
@@ -99,11 +98,6 @@ public abstract class Piece {
             && bPrime.getPiece(c).getColor() == getColor().opposite()
             && bPrime.getPiece(c).validThreat(bPrime, c,
                 bPrime.getInfo(getColor()).getKing())) {
-          if (from.equals(new Coord(4, 7)) && to.equals(new Coord(5, 6))) {
-            System.out.println("King would be exposed to [" + c.getCol() + ", "
-                + c.getRow() + "]");
-          }
-          // System.out.println("King would be exposed");
           return false;
         }
       }
@@ -151,10 +145,6 @@ public abstract class Piece {
     for (Coord c = new Coord(c1, colStep, rowStep); !c.equals(c2); c = new Coord(
         c, colStep, rowStep)) {
       if (!b.isEmpty(c)) {
-        /*
-         * System.out.println("Coordinate [" + c.getCol() + ", " + c.getRow() +
-         * "] is blocking path");
-         */
         return false;
       }
     }

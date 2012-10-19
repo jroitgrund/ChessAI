@@ -70,6 +70,16 @@ enum GameState implements State {
       if (cp.b.move(b, c, true)) {
         switch (cp.b.getState()) {
           case ONGOING:
+            Move bestMove = Minimax.bestMove(cp.b);
+            cp.b.move(bestMove.getFrom(), bestMove.getTo(), false);
+            switch (cp.b.getState()) {
+              case ONGOING:
+                return this;
+              case CHECKMATE:
+                return VICTORY;
+              case DRAW:
+                return STALE;
+            }
             return this;
           case CHECKMATE:
             return VICTORY;
@@ -191,7 +201,6 @@ class ChessPanel extends JPanel implements MouseListener {
       bg = ImageIO.read(new File("img/board/board_black.png"));
     }
     catch (Exception e) {
-      System.out.println("couldn't load images");
     }
     addMouseListener(this);
     b = new Board();
@@ -227,6 +236,5 @@ class ChessPanel extends JPanel implements MouseListener {
   public void mouseReleased(MouseEvent e) {
     state = state.mouseReleased(this, e);
     repaint();
-    System.out.println("Done with outer mouseReleased");
   }
 }

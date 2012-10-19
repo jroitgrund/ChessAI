@@ -118,17 +118,14 @@ public class Board {
         Coord c = new Coord(i, j);
         if (getPiece(c) != null && getPiece(c).getColor() == getCurrentPlayer()
             && getPiece(c).getMoves(this, new Coord(i, j)).size() != 0) {
-          System.out.println("returning ongoing state");
           return gameState.ONGOING;
         }
       }
     }
     if (getInfo(getCurrentPlayer()).isChecked()) {
-      System.out.println("returning checkmate");
       return gameState.CHECKMATE;
     }
     else {
-      System.out.println("returning draw");
       return gameState.DRAW;
     }
   }
@@ -168,7 +165,6 @@ public class Board {
   }
 
   void setCheck() {
-    System.out.println("calling setCheck()");
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
         Coord c = new Coord(i, j);
@@ -176,13 +172,11 @@ public class Board {
             && getPiece(c).getColor() == getCurrentPlayer()
             && getPiece(c).validThreat(this, c,
                 getInfo(getCurrentAdversary()).getKing())) {
-          System.out.println("Setting check");
           getInfo(getCurrentAdversary()).setCheck();
           return;
         }
       }
     }
-    System.out.println("King is safe, no check");
   }
 
   boolean move(Coord from, Coord to, boolean checkValid) {
@@ -192,6 +186,10 @@ public class Board {
         if (getPiece(to) != null) {
           getInfo(getCurrentAdversary()).addScore(-getPiece(to).getValue());
           getInfo(getCurrentPlayer()).addScore(getPiece(to).getValue());
+          if (checkValid)
+            System.out.println("took a piece! Current scores\nwhite: "
+                + getInfo(pieceColor.W).getScore() + "\nblack: "
+                + getInfo(pieceColor.B).getScore());
         }
         p.move(this, from, to);
         getInfo(getCurrentPlayer()).clearCheck();
@@ -202,10 +200,8 @@ public class Board {
       }
     }
     else if (p == null) {
-      System.out.println("No piece");
     }
     else if (p.getColor() != getCurrentPlayer()) {
-      System.out.println("Piece belongs to enemy!");
     }
     return false;
   }
@@ -215,6 +211,7 @@ public class Board {
       return getInfo(getCurrentPlayer()).getScore();
     }
     else {
+      System.out.println("get score says: you're checkmated, mate");
       return Integer.MIN_VALUE;
     }
   }

@@ -7,7 +7,7 @@ import chess.Board.gameState;
 
 public class Minimax {
 
-  final static int maxDepth = 3;
+  final static int maxDepth = 1;
 
   public static int minimax(Board b, int depth) {
     if (depth <= 0 || b.getState() != gameState.ONGOING) {
@@ -23,7 +23,7 @@ public class Minimax {
           for (Coord to : l) {
             Board bPrime = new Board(b);
             bPrime.move(from, to, false);
-            bestScore = Math.max(bestScore, minimax(bPrime, depth - 1));
+            bestScore = Math.max(bestScore, -minimax(bPrime, depth - 1));
           }
         }
       }
@@ -43,7 +43,7 @@ public class Minimax {
           for (Coord to : l) {
             Board bPrime = new Board(b);
             bPrime.move(from, to, false);
-            int score = minimax(bPrime, maxDepth);
+            int score = -minimax(bPrime, maxDepth);
             if (score > bestScore) {
               bestMove = new Move(from, to);
               bestScore = score;
@@ -52,6 +52,7 @@ public class Minimax {
         }
       }
     }
+    System.out.println("best move has score " + bestScore);
     return bestMove;
   }
 }
