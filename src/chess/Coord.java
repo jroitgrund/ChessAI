@@ -36,6 +36,11 @@ public class Coord {
     this.row = c.getRow() + row;
     this.col = c.getCol() + col;
   }
+  
+  public String toString()
+  {
+    return "[" + getCol() + ", " + getRow() + "]";
+  }
 
   boolean inBoard() {
     return (row >= 0 && row < 8 && col >= 0 && col < 8);

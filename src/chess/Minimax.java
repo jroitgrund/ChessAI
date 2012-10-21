@@ -1,13 +1,20 @@
 
 package chess;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import chess.Board.gameState;
 
 public class Minimax {
 
-  final static int maxDepth = 1;
+  final static int maxDepth = 3;
+  final static Random rand;
+  
+  static {
+    rand = new Random();
+  }
 
   public static int minimax(Board b, int depth) {
     if (depth <= 0 || b.getState() != gameState.ONGOING) {
@@ -23,17 +30,20 @@ public class Minimax {
           for (Coord to : l) {
             Board bPrime = new Board(b);
             bPrime.move(from, to, false);
-            bestScore = Math.max(bestScore, -minimax(bPrime, depth - 1));
+            int score = -minimax(bPrime, depth - 1);
+            if (score > bestScore)
+            {
+              bestScore = score;
+            }
           }
         }
       }
     }
-    System.out.println("white's best score is " + bestScore);
     return bestScore;
   }
 
   public static Move bestMove(Board b) {
-    Move bestMove = null;
+    List<Move> moveList = new ArrayList<Move>();
     int bestScore = -5000;
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
@@ -46,14 +56,16 @@ public class Minimax {
             bPrime.move(from, to, false);
             int score = -minimax(bPrime, maxDepth);
             if (score > bestScore) {
-              bestMove = new Move(from, to);
+              moveList = new ArrayList<Move>();
               bestScore = score;
+            }
+            if (score == bestScore) {
+              moveList.add(new Move(from, to));
             }
           }
         }
       }
     }
-    System.out.println("best move has score " + bestScore);
-    return bestMove;
+    return moveList.get(rand.nextInt(moveList.size()));
   }
 }

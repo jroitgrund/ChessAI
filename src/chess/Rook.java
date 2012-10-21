@@ -24,7 +24,7 @@ public class Rook extends Piece {
     if (from.equals(new Coord(0, 0)) || from.equals(new Coord(0, 7))) {
       b.getInfo(getColor()).noCastleQueen();
     }
-    else if (from.equals(new Coord(0, 7)) || from.equals(new Coord(7, 7))) {
+    else if (from.equals(new Coord(7, 0)) || from.equals(new Coord(7, 7))) {
       b.getInfo(getColor()).noCastleKing();
     }
   }

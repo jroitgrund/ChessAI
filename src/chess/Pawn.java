@@ -71,7 +71,7 @@ public class Pawn extends Piece {
   }
 
   List<Coord> getMoves(Board b, Coord from) {
-    return getMovesDirection(b, from, new int[] { 0, 1 }, new int[] { -1, -2,
+    return getMovesDirection(b, from, new int[] { 0, 1, -1 }, new int[] { -1, -2,
         1, 2 });
   }
 }

@@ -183,14 +183,6 @@ public class Board {
     Piece p = getPiece(from);
     if (p != null && p.getColor() == getCurrentPlayer()) {
       if (!checkValid || p.validMove(this, from, to)) {
-        if (getPiece(to) != null) {
-          getInfo(getCurrentAdversary()).addScore(-getPiece(to).getValue());
-          getInfo(getCurrentPlayer()).addScore(getPiece(to).getValue());
-          if (checkValid)
-            System.out.println("took a piece! Current scores\nwhite: "
-                + getInfo(pieceColor.W).getScore() + "\nblack: "
-                + getInfo(pieceColor.B).getScore());
-        }
         p.move(this, from, to);
         getInfo(getCurrentPlayer()).clearCheck();
         setCheck();
@@ -207,12 +199,25 @@ public class Board {
   }
 
   public int getScore() {
-    if (getState() == gameState.ONGOING) {
-      return getInfo(getCurrentPlayer()).getScore();
+    gameState state = getState();
+    if (state == gameState.ONGOING) {
+     // return getInfo(getCurrentPlayer()).getScore();
+      int score = 0;
+      for (Piece p : getPieces(getCurrentPlayer()))
+      {
+        score += p.getValue();
+      }
+      for (Piece p : getPieces(getCurrentAdversary()))
+      {
+        score -= p.getValue();
+      }
+      return score;
+    }
+    else if (state == gameState.CHECKMATE) {
+      return -5000;
     }
     else {
-      System.out.println("get score says: you're checkmated, mate");
-      return -5000;
+      return 0;
     }
   }
 }
