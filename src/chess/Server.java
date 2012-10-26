@@ -24,19 +24,21 @@ public class Server implements Runnable {
     }
   }
 
-  InputStream  whiteIn;
+  InputStream       whiteIn;
 
-  OutputStream whiteOut;
+  OutputStream      whiteOut;
 
-  InputStream  blackIn;
+  InputStream       blackIn;
 
-  OutputStream blackOut;
+  OutputStream      blackOut;
 
-  Socket       white;
+  Socket            white;
 
-  Socket       black;
-  
-  byte[] bytes;
+  Socket            black;
+
+  byte[]            bytes;
+
+  ChessMessage.Info info;
 
   Server(Socket white, Socket black) {
     this.white = white;
@@ -54,7 +56,7 @@ public class Server implements Runnable {
 
   public void run() {
     try {
-      ChessMessage.Info info = ChessMessage.Info.newBuilder().setColor(true).build();
+      info = ChessMessage.Info.newBuilder().setColor(true).build();
       whiteOut.write(info.getSerializedSize());
       whiteOut.write(info.toByteArray());
       info = ChessMessage.Info.newBuilder().setColor(false).build();
@@ -66,21 +68,21 @@ public class Server implements Runnable {
         whiteIn.read(bytes);
         info = ChessMessage.Info.parseFrom(bytes);
         System.out.println("Received white's move");
-        if (info.hasEndGame()) {
-          break;
-        }
         blackOut.write(info.getSerializedSize());
         blackOut.write(info.toByteArray());
+        if (info.hasEndGame() && info.getEndGame()) {
+          break;
+        }
         System.out.println("Relayed to black");
         bytes = new byte[blackIn.read()];
         blackIn.read(bytes);
         info = ChessMessage.Info.parseFrom(bytes);
         System.out.println("Received black's move");
-        if (info.hasEndGame()) {
-          break;
-        }
         whiteOut.write(info.getSerializedSize());
         whiteOut.write(info.toByteArray());
+        if (info.hasEndGame() && info.getEndGame()) {
+          break;
+        }
         System.out.println("Relayed to white");
       }
       whiteIn.close();

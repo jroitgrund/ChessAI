@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
+import chess.Board.gameState;
+
 public class ChessGUI {
 
   private void init() {
@@ -65,18 +67,18 @@ enum GameState implements State {
   PLAYINGNETWORK {
 
     Coord        from = null;
-    Coord        to = null;
+
+    Coord        to   = null;
 
     Socket       s;
 
     InputStream  serverIn;
 
     OutputStream serverOut;
-    
-    byte[] bytes;
-    
-    public void setup(ChessPanel cp)
-    {
+
+    byte[]       bytes;
+
+    public void setup(ChessPanel cp) {
       try {
         s = new Socket("192.168.0.75", 6969);
         System.out.println("Opened socket");
@@ -87,21 +89,33 @@ enum GameState implements State {
         serverIn.read(bytes);
         ChessMessage.Info info = ChessMessage.Info.parseFrom(bytes);
         System.out.println("got color info");
-        if (!info.getColor())
-        {
+        if (!info.getColor()) {
           bytes = new byte[serverIn.read()];
           serverIn.read(bytes);
           info = ChessMessage.Info.parseFrom(bytes);
-          Move enemy = new Move(
-              new Coord(info.getMove().getFrom().getCol(), info.getMove().getFrom().getRow()),
-              new Coord(info.getMove().getTo().getCol(), info.getMove().getTo().getRow()));
+          System.out.println("Read white's first move");
+          Move enemy = new Move(new Coord(info.getMove().getFrom().getCol(),
+              info.getMove().getFrom().getRow()), new Coord(info.getMove()
+              .getTo().getCol(), info.getMove().getTo().getRow()));
+          System.out.println("constructed move object from info object");
+          System.out.println("From: " + enemy.getFrom() + ", to: "
+              + enemy.getTo());
           cp.b.move(enemy.getFrom(), enemy.getTo(), false);
-          System.out.println("Am black, and moved");
+          System.out.println("made board on move");
         }
-        
       }
       catch (Exception e) {
-        System.out.println("couldn't open socket");
+        e.printStackTrace();
+      }
+    }
+
+    public void cleanup() {
+      try {
+        serverIn.close();
+        serverOut.close();
+        s.close();
+      }
+      catch (Exception e) {
       }
     }
 
@@ -127,33 +141,48 @@ enum GameState implements State {
 
         @Override
         protected GameState doInBackground() throws Exception {
-          ChessMessage.Info info = ChessMessage.Info.newBuilder()
-          .setMove(ChessMessage.Move.newBuilder()
-              .setFrom(ChessMessage.Position.newBuilder()
-                  .setCol(from.getCol())
-                  .setRow(from.getRow()))
-              .setTo(ChessMessage.Position.newBuilder()
-                  .setCol(to.getCol())
-                  .setRow(to.getRow()))).build();
+          ChessMessage.Info info = ChessMessage.Info
+              .newBuilder()
+              .setMove(
+                  ChessMessage.Move
+                      .newBuilder()
+                      .setFrom(
+                          ChessMessage.Position.newBuilder()
+                              .setCol(from.getCol()).setRow(from.getRow()))
+                      .setTo(
+                          ChessMessage.Position.newBuilder()
+                              .setCol(to.getCol()).setRow(to.getRow())))
+              .setEndGame(cp.b.getState() != gameState.ONGOING).build();
           serverOut.write(info.getSerializedSize());
           serverOut.write(info.toByteArray());
+          switch (cp.b.getState()) {
+            case ONGOING:
+              break;
+            case CHECKMATE:
+              cleanup();
+              return VICTORY;
+            case DRAW:
+              cleanup();
+              return STALE;
+          }
           bytes = new byte[serverIn.read()];
           serverIn.read(bytes);
           info = ChessMessage.Info.parseFrom(bytes);
-          Move enemy = new Move(
-              new Coord(info.getMove().getFrom().getCol(), info.getMove().getFrom().getRow()),
-              new Coord(info.getMove().getTo().getCol(), info.getMove().getTo().getRow()));
+          Move enemy = new Move(new Coord(info.getMove().getFrom().getCol(),
+              info.getMove().getFrom().getRow()), new Coord(info.getMove()
+              .getTo().getCol(), info.getMove().getTo().getRow()));
           cp.b.move(enemy.getFrom(), enemy.getTo(), false);
-                  
           switch (cp.b.getState()) {
             case ONGOING:
-              return PLAYINGAI;
+              return PLAYINGNETWORK;
             case CHECKMATE:
+              cleanup();
               return VICTORY;
             case DRAW:
+              cleanup();
               return STALE;
           }
-          return PLAYINGAI;
+          return PLAYINGNETWORK;
         }
 
         protected void done() {
@@ -171,40 +200,9 @@ enum GameState implements State {
     protected GameState move(ChessPanel cp, Coord from, Coord to) {
       if (cp.b.move(from, to, true)) {
         cp.repaint();
-        switch (cp.b.getState()) {
-          case ONGOING:
-            return continueGame(cp);
-          case CHECKMATE:
-            sendEnd();
-            return VICTORY;
-          case DRAW:
-            sendEnd();
-            return STALE;
-        }
+        return continueGame(cp);
       }
       return this;
-    }
-    
-    private void sendEnd()
-    {
-      new SwingWorker<GameState, Void>() {
-
-        @Override
-        protected GameState doInBackground() throws Exception {
-          ChessMessage.Info info = ChessMessage.Info.newBuilder().setEndGame(true).build();
-          serverOut.write(info.getSerializedSize());
-          serverOut.write(info.toByteArray());
-          return null;
-        }
-
-        protected void done() {
-          try {
-          serverIn.close();
-          serverOut.close();
-          s.close();
-          } catch(Exception e) {}
-        }
-      }.execute();
     }
   },
   PLAYINGAI {
@@ -308,7 +306,6 @@ enum GameState implements State {
     @Override
     public GameState mouseReleased(ChessPanel cp, MouseEvent e) {
       cp.b = new Board();
-      setup(cp);
       return PLAYING;
     }
 
@@ -335,7 +332,6 @@ enum GameState implements State {
     @Override
     public GameState mouseReleased(ChessPanel cp, MouseEvent e) {
       cp.b = new Board();
-      setup(cp);
       return PLAYING;
     }
 
@@ -386,9 +382,8 @@ enum GameState implements State {
   }
 
   abstract protected GameState continueGame(ChessPanel cp);
-  public void setup(ChessPanel cp)
-  {
-    
+
+  public void setup(ChessPanel cp) {
   }
 }
 
@@ -414,6 +409,7 @@ class ChessPanel extends JPanel implements MouseListener {
 
   public ChessPanel() {
     state = GameState.PLAYINGNETWORK;
+    b = new Board();
     state.setup(this);
     pieces = new BufferedImage[2][6];
     try {
@@ -434,7 +430,6 @@ class ChessPanel extends JPanel implements MouseListener {
     catch (Exception e) {
     }
     addMouseListener(this);
-    b = new Board();
   }
 
   public void setState(GameState gameState) {
