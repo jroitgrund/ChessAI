@@ -36,9 +36,8 @@ public class Coord {
     this.row = c.getRow() + row;
     this.col = c.getCol() + col;
   }
-  
-  public String toString()
-  {
+
+  public String toString() {
     return "[" + getCol() + ", " + getRow() + "]";
   }
 

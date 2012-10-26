@@ -2,12 +2,16 @@
 package chess;
 
 import java.awt.Color;
+import ChessProtocol.ChessMessage;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -57,7 +61,151 @@ enum GameState implements State {
     protected GameState continueGame(ChessPanel cp) {
       return null;
     }
+  },
+  PLAYINGNETWORK {
+
+    Coord        from = null;
+    Coord        to = null;
+
+    Socket       s;
+
+    InputStream  serverIn;
+
+    OutputStream serverOut;
     
+    byte[] bytes;
+    
+    public void setup(ChessPanel cp)
+    {
+      try {
+        s = new Socket("192.168.0.75", 6969);
+        System.out.println("Opened socket");
+        serverIn = s.getInputStream();
+        serverOut = s.getOutputStream();
+        System.out.println("waiting for color info");
+        bytes = new byte[serverIn.read()];
+        serverIn.read(bytes);
+        ChessMessage.Info info = ChessMessage.Info.parseFrom(bytes);
+        System.out.println("got color info");
+        if (!info.getColor())
+        {
+          bytes = new byte[serverIn.read()];
+          serverIn.read(bytes);
+          info = ChessMessage.Info.parseFrom(bytes);
+          Move enemy = new Move(
+              new Coord(info.getMove().getFrom().getCol(), info.getMove().getFrom().getRow()),
+              new Coord(info.getMove().getTo().getCol(), info.getMove().getTo().getRow()));
+          cp.b.move(enemy.getFrom(), enemy.getTo(), false);
+          System.out.println("Am black, and moved");
+        }
+        
+      }
+      catch (Exception e) {
+        System.out.println("couldn't open socket");
+      }
+    }
+
+    @Override
+    public GameState mouseReleased(ChessPanel cp, MouseEvent e) {
+      if (from == null || (to = getCoord(e)) == null) {
+        from = null;
+        to = null;
+        return this;
+      }
+      return move(cp, from, to);
+    }
+
+    @Override
+    public GameState mousePressed(ChessPanel cp, MouseEvent e) {
+      from = getCoord(e);
+      return this;
+    }
+
+    @Override
+    protected GameState continueGame(final ChessPanel cp) {
+      new SwingWorker<GameState, Void>() {
+
+        @Override
+        protected GameState doInBackground() throws Exception {
+          ChessMessage.Info info = ChessMessage.Info.newBuilder()
+          .setMove(ChessMessage.Move.newBuilder()
+              .setFrom(ChessMessage.Position.newBuilder()
+                  .setCol(from.getCol())
+                  .setRow(from.getRow()))
+              .setTo(ChessMessage.Position.newBuilder()
+                  .setCol(to.getCol())
+                  .setRow(to.getRow()))).build();
+          serverOut.write(info.getSerializedSize());
+          serverOut.write(info.toByteArray());
+          bytes = new byte[serverIn.read()];
+          serverIn.read(bytes);
+          info = ChessMessage.Info.parseFrom(bytes);
+          Move enemy = new Move(
+              new Coord(info.getMove().getFrom().getCol(), info.getMove().getFrom().getRow()),
+              new Coord(info.getMove().getTo().getCol(), info.getMove().getTo().getRow()));
+          cp.b.move(enemy.getFrom(), enemy.getTo(), false);
+                  
+          switch (cp.b.getState()) {
+            case ONGOING:
+              return PLAYINGAI;
+            case CHECKMATE:
+              return VICTORY;
+            case DRAW:
+              return STALE;
+          }
+          return PLAYINGAI;
+        }
+
+        protected void done() {
+          try {
+            cp.setState(get());
+            cp.repaint();
+          }
+          catch (Exception e) {
+          }
+        }
+      }.execute();
+      return WAITING;
+    }
+
+    protected GameState move(ChessPanel cp, Coord from, Coord to) {
+      if (cp.b.move(from, to, true)) {
+        cp.repaint();
+        switch (cp.b.getState()) {
+          case ONGOING:
+            return continueGame(cp);
+          case CHECKMATE:
+            sendEnd();
+            return VICTORY;
+          case DRAW:
+            sendEnd();
+            return STALE;
+        }
+      }
+      return this;
+    }
+    
+    private void sendEnd()
+    {
+      new SwingWorker<GameState, Void>() {
+
+        @Override
+        protected GameState doInBackground() throws Exception {
+          ChessMessage.Info info = ChessMessage.Info.newBuilder().setEndGame(true).build();
+          serverOut.write(info.getSerializedSize());
+          serverOut.write(info.toByteArray());
+          return null;
+        }
+
+        protected void done() {
+          try {
+          serverIn.close();
+          serverOut.close();
+          s.close();
+          } catch(Exception e) {}
+        }
+      }.execute();
+    }
   },
   PLAYINGAI {
 
@@ -82,18 +230,14 @@ enum GameState implements State {
 
     @Override
     protected GameState continueGame(final ChessPanel cp) {
-      System.out.println("Creating new SwingWorker for w");
       new SwingWorker<GameState, Void>() {
 
         @Override
         protected GameState doInBackground() throws Exception {
-          System.out.println("worker starting");
           Move bestMove = Minimax.bestMove(cp.b);
           cp.b.move(bestMove.getFrom(), bestMove.getTo(), false);
-          System.out.println("worker done moving");
           switch (cp.b.getState()) {
             case ONGOING:
-              System.out.println("worker returning PLAYINGAI");
               return PLAYINGAI;
             case CHECKMATE:
               return VICTORY;
@@ -102,9 +246,8 @@ enum GameState implements State {
           }
           return PLAYINGAI;
         }
-        
-        protected void done()
-        {
+
+        protected void done() {
           try {
             cp.setState(get());
             cp.repaint();
@@ -112,7 +255,6 @@ enum GameState implements State {
           catch (Exception e) {
           }
         }
-
       }.execute();
       return WAITING;
     }
@@ -166,6 +308,7 @@ enum GameState implements State {
     @Override
     public GameState mouseReleased(ChessPanel cp, MouseEvent e) {
       cp.b = new Board();
+      setup(cp);
       return PLAYING;
     }
 
@@ -192,6 +335,7 @@ enum GameState implements State {
     @Override
     public GameState mouseReleased(ChessPanel cp, MouseEvent e) {
       cp.b = new Board();
+      setup(cp);
       return PLAYING;
     }
 
@@ -242,6 +386,10 @@ enum GameState implements State {
   }
 
   abstract protected GameState continueGame(ChessPanel cp);
+  public void setup(ChessPanel cp)
+  {
+    
+  }
 }
 
 interface State {
@@ -263,9 +411,10 @@ class ChessPanel extends JPanel implements MouseListener {
   Board             b;
 
   private GameState state;
-  
+
   public ChessPanel() {
-    state = GameState.PLAYINGAI;
+    state = GameState.PLAYINGNETWORK;
+    state.setup(this);
     pieces = new BufferedImage[2][6];
     try {
       pieces[0][0] = ImageIO.read(new File("img/whites/white_p.png"));
@@ -287,10 +436,9 @@ class ChessPanel extends JPanel implements MouseListener {
     addMouseListener(this);
     b = new Board();
   }
-  
+
   public void setState(GameState gameState) {
     state = gameState;
-    
   }
 
   public Dimension getPreferredSize() {

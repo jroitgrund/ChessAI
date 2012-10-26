@@ -52,8 +52,7 @@ public class Pawn extends Piece {
     if (validThreat(b, from, to)) {
       return true;
     }
-    if (b.getPiece(to) != null)
-    {
+    if (b.getPiece(to) != null) {
       return false;
     }
     if (rowDiff == 2 && realRow == 1 && colDiff == 0) {
@@ -71,7 +70,7 @@ public class Pawn extends Piece {
   }
 
   List<Coord> getMoves(Board b, Coord from) {
-    return getMovesDirection(b, from, new int[] { 0, 1, -1 }, new int[] { -1, -2,
-        1, 2 });
+    return getMovesDirection(b, from, new int[] { 0, 1, -1 }, new int[] { -1,
+        -2, 1, 2 });
   }
 }

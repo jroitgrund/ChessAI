@@ -11,9 +11,8 @@ public class Move {
     this.from = from;
     this.to = to;
   }
-  
-  public String toString()
-  {
+
+  public String toString() {
     return from.toString() + " to " + to.toString();
   }
 

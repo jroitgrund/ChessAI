@@ -201,14 +201,12 @@ public class Board {
   public int getScore() {
     gameState state = getState();
     if (state == gameState.ONGOING) {
-     // return getInfo(getCurrentPlayer()).getScore();
+      // return getInfo(getCurrentPlayer()).getScore();
       int score = 0;
-      for (Piece p : getPieces(getCurrentPlayer()))
-      {
+      for (Piece p : getPieces(getCurrentPlayer())) {
         score += p.getValue();
       }
-      for (Piece p : getPieces(getCurrentAdversary()))
-      {
+      for (Piece p : getPieces(getCurrentAdversary())) {
         score -= p.getValue();
       }
       return score;

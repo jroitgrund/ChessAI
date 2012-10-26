@@ -9,9 +9,9 @@ import chess.Board.gameState;
 
 public class Minimax {
 
-  final static int maxDepth = 3;
+  final static int    maxDepth = 3;
+
   final static Random rand;
-  
   static {
     rand = new Random();
   }
@@ -31,8 +31,7 @@ public class Minimax {
             Board bPrime = new Board(b);
             bPrime.move(from, to, false);
             int score = -minimax(bPrime, depth - 1);
-            if (score > bestScore)
-            {
+            if (score > bestScore) {
               bestScore = score;
             }
           }
